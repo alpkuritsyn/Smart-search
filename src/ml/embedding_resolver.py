@@ -129,11 +129,15 @@ class EmbeddingEntityResolver:
         self.catalog_path = Path(catalog_path)
         self.aliases_path = Path(aliases_path)
         self.config = json.loads(self.config_path.read_text(encoding="utf-8"))
+        keep_alive_val = os.environ.get(
+            "ENTITY_EMBEDDING_KEEP_ALIVE",
+            self.config.get("keep_alive", "5m"),
+        )
         self.client = OllamaEmbeddingClient(
             self.config["base_url"],
             self.config["model"],
             int(self.config.get("timeout_seconds", 20)),
-            self.config.get("keep_alive", -1),
+            keep_alive_val,
         )
         self._embedding_cache: dict[str, list[float]] = {}
         self._embedding_cache_lock = threading.Lock()
