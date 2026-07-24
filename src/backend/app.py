@@ -38,6 +38,12 @@ class SmartSearchHandler(BaseHTTPRequestHandler):
         parsed_url = urllib.parse.urlparse(self.path)
         path = parsed_url.path
 
+        # Support /Smart-search prefix
+        if path.startswith("/Smart-search"):
+            path = path[len("/Smart-search"):]
+            if not path:
+                path = "/"
+
         if path == "/api/search":
             query_params = urllib.parse.parse_qs(parsed_url.query)
             query_str = query_params.get("q", [""])[0]

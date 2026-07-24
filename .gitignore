@@ -4,17 +4,7 @@ __pycache__/
 *.pyc
 .runtime/
 *.log
-*.db
-*.sqlite
 graphify-out/
 reports/generated/
 data/raw/**
 !data/raw/.gitkeep
-data/staging/**
-!data/staging/.gitkeep
-data/canonical/**
-!data/canonical/.gitkeep
-data/graph/**
-!data/graph/.gitkeep
-data/embeddings/**
-!data/embeddings/.gitkeep

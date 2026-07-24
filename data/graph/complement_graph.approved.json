@@ -1,0 +1,284 @@
+{
+  "version": "complement-graph-v1.1-approved",
+  "taxonomy_version": "taxonomy-v1",
+  "nodes": [
+    {
+      "id": "type:paint",
+      "label": "Краска",
+      "kind": "product_type",
+      "catalog_selector": {
+        "field": "product_type_id",
+        "contains_any": [
+          "type:paint"
+        ]
+      }
+    },
+    {
+      "id": "type:primer",
+      "label": "Грунтовка",
+      "kind": "product_type",
+      "catalog_selector": {
+        "field": "product_type_id",
+        "contains_any": [
+          "type:primer"
+        ]
+      }
+    },
+    {
+      "id": "type:putty",
+      "label": "Шпатлевка",
+      "kind": "product_type",
+      "catalog_selector": {
+        "field": "product_type_id",
+        "contains_any": [
+          "type:putty"
+        ]
+      }
+    },
+    {
+      "id": "type:brush",
+      "label": "Кисть",
+      "kind": "product_type",
+      "catalog_selector": {
+        "field": "product_type_id",
+        "contains_any": [
+          "type:brush"
+        ]
+      }
+    },
+    {
+      "id": "type:roller",
+      "label": "Валик",
+      "kind": "product_type",
+      "catalog_selector": {
+        "field": "product_type_id",
+        "contains_any": [
+          "type:roller"
+        ]
+      }
+    },
+    {
+      "id": "type:varnish",
+      "label": "Лак",
+      "kind": "product_type",
+      "catalog_selector": {
+        "field": "product_type_id",
+        "contains_any": [
+          "type:varnish"
+        ]
+      }
+    },
+    {
+      "id": "type:plaster",
+      "label": "Штукатурка",
+      "kind": "product_type",
+      "catalog_selector": {
+        "field": "product_type_id",
+        "contains_any": [
+          "type:plaster"
+        ]
+      }
+    },
+    {
+      "id": "type:tile_glue",
+      "label": "Клей для плитки",
+      "kind": "product_type",
+      "catalog_selector": {
+        "field": "product_type_id",
+        "contains_any": [
+          "type:tile_glue"
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "type:paint",
+      "relation": "PREPARE_WITH",
+      "to": "type:primer",
+      "rationale": "Подготовка основания перед окрашиванием; конкретный грунт выбирается по основанию.",
+      "provenance": [
+        "expert-rule:v1.1:01"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:paint",
+      "relation": "LEVEL_WITH",
+      "to": "type:putty",
+      "rationale": "Выравнивание дефектов перед окрашиванием, когда оно требуется.",
+      "provenance": [
+        "expert-rule:v1.1:02"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:paint",
+      "relation": "APPLY_WITH",
+      "to": "type:brush",
+      "rationale": "Один из инструментов нанесения краски.",
+      "provenance": [
+        "expert-rule:v1.1:03"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:paint",
+      "relation": "APPLY_WITH",
+      "to": "type:roller",
+      "rationale": "Инструмент нанесения краски на сравнительно большие площади.",
+      "provenance": [
+        "expert-rule:v1.1:04"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:primer",
+      "relation": "APPLY_WITH",
+      "to": "type:brush",
+      "rationale": "Один из инструментов нанесения грунтовки.",
+      "provenance": [
+        "expert-rule:v1.1:05"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:primer",
+      "relation": "APPLY_WITH",
+      "to": "type:roller",
+      "rationale": "Инструмент нанесения грунтовки на стены и полы.",
+      "provenance": [
+        "expert-rule:v1.1:06"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:primer",
+      "relation": "LEVEL_WITH",
+      "to": "type:putty",
+      "rationale": "Материал выравнивания, который может применяться в системе подготовки основания.",
+      "provenance": [
+        "expert-rule:v1.1:07"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:varnish",
+      "relation": "PREPARE_WITH",
+      "to": "type:primer",
+      "rationale": "Подготовка основания перед лакированием, если её требует инструкция выбранного лака.",
+      "provenance": [
+        "expert-rule:v1.1:08"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:varnish",
+      "relation": "APPLY_WITH",
+      "to": "type:brush",
+      "rationale": "Один из инструментов нанесения лака.",
+      "provenance": [
+        "expert-rule:v1.1:09"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:putty",
+      "relation": "PREPARE_WITH",
+      "to": "type:primer",
+      "rationale": "Грунтование основания перед шпаклеванием, если это предусмотрено технологией работ.",
+      "provenance": [
+        "expert-rule:v1.1:10"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:brush",
+      "relation": "USE_WITH",
+      "to": "type:paint",
+      "rationale": "Кисть применяется с красками подходящего состава и назначения.",
+      "provenance": [
+        "expert-rule:v1.1:11"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:brush",
+      "relation": "USE_WITH",
+      "to": "type:varnish",
+      "rationale": "Кисть применяется с лаками, если тип ворса допускается инструкцией покрытия.",
+      "provenance": [
+        "expert-rule:v1.1:12"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:roller",
+      "relation": "USE_WITH",
+      "to": "type:paint",
+      "rationale": "Валик применяется с красками при соответствии материала шубки составу покрытия.",
+      "provenance": [
+        "expert-rule:v1.1:13"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:roller",
+      "relation": "USE_WITH",
+      "to": "type:primer",
+      "rationale": "Валик может применяться для грунтовок на подходящих основаниях.",
+      "provenance": [
+        "expert-rule:v1.1:14"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:plaster",
+      "relation": "PREPARE_WITH",
+      "to": "type:primer",
+      "rationale": "Основание грунтуют перед оштукатуриванием, когда этого требует система материалов.",
+      "provenance": [
+        "expert-rule:v1.1:15"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:plaster",
+      "relation": "FINISH_WITH",
+      "to": "type:putty",
+      "rationale": "Шпатлевка может использоваться для финишного выравнивания оштукатуренной поверхности.",
+      "provenance": [
+        "expert-rule:v1.1:16"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:tile_glue",
+      "relation": "PREPARE_WITH",
+      "to": "type:primer",
+      "rationale": "Грунтовка основания перед плиточным клеем выбирается по типу основания и инструкции клея.",
+      "provenance": [
+        "expert-rule:v1.1:17"
+      ],
+      "review_status": "approved",
+      "confidence": 1
+    }
+  ]
+}
+
