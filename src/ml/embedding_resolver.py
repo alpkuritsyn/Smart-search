@@ -77,13 +77,14 @@ def _sha256(path: Path) -> str:
 
 
 class OllamaEmbeddingClient:
-    def __init__(self, base_url: str, model: str, timeout_seconds: int = 20):
+    def __init__(self, base_url: str, model: str, timeout_seconds: int = 20, keep_alive: int | str = -1):
         self.base_url = base_url.rstrip("/")
         hostname = (urlparse(self.base_url).hostname or "").lower()
         if hostname not in {"127.0.0.1", "localhost", "::1"}:
             raise ValueError("Embedding provider must be a loopback Ollama endpoint")
         self.model = model
         self.timeout_seconds = timeout_seconds
+        self.keep_alive = keep_alive
 
     def installed_models(self) -> set[str]:
         request = urllib.request.Request(f"{self.base_url}/api/tags", method="GET")
@@ -98,7 +99,7 @@ class OllamaEmbeddingClient:
         return names
 
     def embed(self, inputs: str | list[str]) -> list[list[float]]:
-        body = json.dumps({"model": self.model, "input": inputs}).encode("utf-8")
+        body = json.dumps({"model": self.model, "input": inputs, "keep_alive": self.keep_alive}).encode("utf-8")
         request = urllib.request.Request(
             f"{self.base_url}/api/embed",
             data=body,
@@ -132,6 +133,7 @@ class EmbeddingEntityResolver:
             self.config["base_url"],
             self.config["model"],
             int(self.config.get("timeout_seconds", 20)),
+            self.config.get("keep_alive", -1),
         )
         self._embedding_cache: dict[str, list[float]] = {}
         self._embedding_cache_lock = threading.Lock()

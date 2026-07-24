@@ -5,6 +5,7 @@
   "base_url": "http://127.0.0.1:11434",
   "model": "qwen3-embedding:0.6b",
   "timeout_seconds": 120,
+  "keep_alive": -1,
   "batch_size": 16,
   "entity_types": ["brand", "product_type", "product_name"],
   "weights": {
