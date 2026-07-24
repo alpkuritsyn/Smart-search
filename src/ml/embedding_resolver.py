@@ -245,10 +245,11 @@ class EmbeddingEntityResolver:
         for entity_id, display, phrase, vector_blob, dimension, trusted in rows:
             vector_array = array("f")
             vector_array.frombytes(vector_blob)
-            vector = list(vector_array)
-            if len(vector) != dimension or len(vector) != len(query_vector):
+            if len(vector_array) != dimension or len(vector_array) != len(query_vector):
                 continue
-            embedding_score = max(0.0, min(1.0, _dot(query_vector, vector)))
+            embedding_score = max(0.0, min(1.0, _dot(query_vector, vector_array)))
+            if embedding_score < 0.35 and len(phrase) > 8:
+                continue
             character_score = _ratio(normalized, phrase)
             transliteration_score = _ratio(transliterated_query, transliterate(phrase))
             score = (

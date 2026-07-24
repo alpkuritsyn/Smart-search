@@ -218,7 +218,9 @@ def apply_entity_resolution(parsed, resolver=None, mode=None, policy=None, catal
         if ready_phrase is not None and apply_result(ready_phrase, phrase):
             return parsed
 
-    for token in candidates:
+    STOP_WORDS = {"для", "и", "в", "на", "с", "из", "под", "от", "по", "за", "со", "без"}
+    valid_candidates = [t for t in candidates if len(t) >= 3 and t not in STOP_WORDS]
+    for token in valid_candidates:
         options = []
         result_types = []
         if not parsed.get("brand_id"):
