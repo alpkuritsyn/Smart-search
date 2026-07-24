@@ -99,7 +99,7 @@ class OllamaEmbeddingClient:
         return names
 
     def embed(self, inputs: str | list[str]) -> list[list[float]]:
-        body = json.dumps({"model": self.model, "input": inputs, "keep_alive": self.keep_alive}).encode("utf-8")
+        body = json.dumps({"model": self.model, "input": inputs}).encode("utf-8")
         request = urllib.request.Request(
             f"{self.base_url}/api/embed",
             data=body,
