@@ -1,0 +1,40 @@
+{
+  "version": "parser-sources-v3-full-catalog",
+  "policy": {
+    "respect_robots_txt": true,
+    "bypass_authentication": false,
+    "bypass_captcha": false,
+    "default_requests_per_second": 3.6,
+    "workers": 4,
+    "timeout_seconds": 30,
+    "retries": 2,
+    "checkpoint_every_products": 100,
+    "minimum_parse_success_pct": 95,
+    "user_agent": "SmartSearchCatalogAudit/1.0 (+local-development)"
+  },
+  "sources": [
+    {
+      "source_id": "source:remplanika-public-catalog",
+      "base_url": "https://remplanika.ru/",
+      "enabled": true,
+      "authorization_status": "approved",
+      "catalog_scope": "full_catalog",
+      "allowed_paths": [
+        "/catalog/"
+      ],
+      "path_metadata": {},
+      "priority_categories": ["весь публичный товарный каталог"],
+      "discovery": {
+        "sitemap_urls": [
+          "https://remplanika.ru/sitemap_iblock_7.xml"
+        ],
+        "seed_urls": [
+          "https://remplanika.ru/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/kisti/0114216_kist_ploskaya_premium_smeshannaya_shchetina_der_buk_ruk_100mm_kitay_/"
+        ],
+        "leaf_only": true,
+        "product_slug_regex": null
+      },
+      "notes": "Весь публичный /catalog/ из sitemap. Seed используется только как preflight известной карточки и не ограничивает scope. Leaf-only исключает известные родительские разделы, но не требует цифр в slug; каждая карточка подтверждается microdata name/category и SKU."
+    }
+  ]
+}

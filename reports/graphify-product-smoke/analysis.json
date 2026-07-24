@@ -1,0 +1,104 @@
+{
+  "communities": {
+    "0": [
+      "brush",
+      "primer",
+      "tile_glue",
+      "varnish"
+    ],
+    "1": [
+      "paint",
+      "roller"
+    ],
+    "2": [
+      "plaster",
+      "putty"
+    ]
+  },
+  "cohesion": {
+    "0": 0.6666666666666666,
+    "1": 1.0,
+    "2": 1.0
+  },
+  "gods": [
+    {
+      "id": "primer",
+      "label": "Primer",
+      "degree": 7
+    },
+    {
+      "id": "paint",
+      "label": "Paint",
+      "degree": 4
+    },
+    {
+      "id": "putty",
+      "label": "Putty",
+      "degree": 3
+    },
+    {
+      "id": "brush",
+      "label": "Brush",
+      "degree": 3
+    },
+    {
+      "id": "varnish",
+      "label": "Varnish",
+      "degree": 2
+    },
+    {
+      "id": "roller",
+      "label": "Roller",
+      "degree": 2
+    },
+    {
+      "id": "plaster",
+      "label": "Plaster",
+      "degree": 2
+    },
+    {
+      "id": "tile_glue",
+      "label": "Tile Glue",
+      "degree": 1
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Paint",
+      "target": "Brush",
+      "source_files": [
+        "approved_rules.md",
+        "approved_rules.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "APPLY_WITH",
+      "note": "Bridges community 1 \u2192 community 0"
+    },
+    {
+      "source": "Paint",
+      "target": "Putty",
+      "source_files": [
+        "approved_rules.md",
+        "approved_rules.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "LEVEL_WITH",
+      "note": "Bridges community 1 \u2192 community 2"
+    },
+    {
+      "source": "Plaster",
+      "target": "Primer",
+      "source_files": [
+        "approved_rules.md",
+        "approved_rules.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "PREPARE_WITH",
+      "note": "Bridges community 0 \u2192 community 2"
+    }
+  ],
+  "tokens": {
+    "input": 4027,
+    "output": 2024
+  }
+}

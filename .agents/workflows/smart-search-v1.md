@@ -1,0 +1,17 @@
+---
+title: Smart-search V1 delivery
+description: Оркестрация парсинга, нормализации, локального embedding entity resolution, графа, backend, mock-first web UI и независимой QA.
+---
+
+1. Прочитай `START_PROMPT.md`, `WORKFLOW.md`, `agents/00_shared_contract.md` и `agents/01_lead_orchestrator.md`.
+2. Создай implementation plan, ownership matrix и baseline report. Не изменяй source snapshot.
+3. Параллельно вызови субагентов Product Parser, Catalog Normalization и Frontend Mock Mode. Parser обязан обработать весь `sitemap_iblock_7.xml` во всём `/catalog/`, без allowlist категорий и slug regex, и не имеет права создавать демонстрационные товары. Длинный запуск продолжает по checkpoints и проверенным raw snapshots. При наличии четвёртого слота запусти QA Early Mode; иначе запусти его первым освободившимся слотом. Передай каждому полный текст его agent-файла и shared contract.
+4. Прими их handoff по Gate 1 из `WORKFLOW.md`. При конфликте останови только зависимую ветку, остальные продолжай.
+5. Поручи Catalog Normalization обработать staged records и выпустить canonical snapshot.
+6. После полного parser/canonical gate параллельно вызови Complement Graph Agent и Embedding Entity Resolution Agent по `agents/09_embedding_entity_resolution.md`. Embedding Agent использует только локальный `qwen3-embedding:0.6b`, exact-first hybrid reranking и не индексирует raw brands без canonical ID. Он не скачивает и не подменяет модель без разрешения. Индекс строится только после окончания импорта, иначе он stale.
+7. Graph Agent обязан использовать `tools/run_graphify_ollama.ps1` с `gemma4:e2b`, затем structural validation и `validate_catalog_graph_coverage.py`. После этого создай review-пакет командой `tools/prepare_antigravity_graph_review.py` и вызови отдельного Graph Semantic Reviewer по `agents/08_graph_semantic_reviewer.md`. Он обязан работать своими силами в Antigravity, без Gemini и других внешних LLM API. Проверь его handoff через `tools/validate_antigravity_graph_review.py`. Покрытие 100% scoped типов/товаров и валидный независимый review — обязательные gates.
+8. Embedding Agent обязан выполнить model preflight, построить/валидировать индекс и передать calibration report. `Тикула` должна разрешаться в Tikkurila, а `тик`, unknown, timeout и stale index не должны создавать hard filter. Product-name candidates в первом релизе работают как safe boost/suggestion, не как самостоятельный hard filter. Если Gate 2E не закрыт, зафиксируй resolver mode `off` и продолжи deterministic V1.
+9. После принятия aliases, canonical catalog, approved graph и embedding handoff (либо явного `off`) вызови Backend Agent. Только он может менять runtime/backend files. Интеграция идёт режимами `off → shadow → apply` с exact bypass и неизменным fallback.
+10. Передай Backend API contract Frontend Agent и поручи API Mode integration без переписывания renderer; UI может показать подтверждённую коррекцию или неоднозначность, но не принимает решение.
+11. После интеграции вызови QA Agent в Release Mode. Поручи regression, entity-resolution, contract, graph, API, frontend и browser tests в Mock/API modes.
+12. Проверь parser ingestion, embedding index/calibration и catalog-graph coverage reports. Запрещено ставить `GO` для resolver `apply`, если false accepted hard filters > 0, index stale/partial или точный model tag не проверен. Deterministic V1 может получить отдельный GO только с resolver `off`. Затем подготовь release report и rollback. Не выполняй commit, push или deploy без разрешения пользователя.

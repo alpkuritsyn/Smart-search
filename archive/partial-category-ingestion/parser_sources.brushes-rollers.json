@@ -1,0 +1,53 @@
+{
+  "version": "parser-sources-v2-live",
+  "policy": {
+    "respect_robots_txt": true,
+    "bypass_authentication": false,
+    "bypass_captcha": false,
+    "default_requests_per_second": 0.5,
+    "timeout_seconds": 30,
+    "retries": 2,
+    "minimum_parse_success_pct": 95,
+    "user_agent": "SmartSearchCatalogAudit/1.0 (+local-development)"
+  },
+  "sources": [
+    {
+      "source_id": "source:remplanika-public-catalog",
+      "base_url": "https://remplanika.ru/",
+      "enabled": true,
+      "authorization_status": "approved",
+      "allowed_paths": [
+        "/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/kisti/",
+        "/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/valiki/"
+      ],
+      "path_metadata": {
+        "/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/kisti/": {
+          "category": "Инструменты",
+          "subcategory": "Кисти"
+        },
+        "/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/valiki/": {
+          "category": "Инструменты",
+          "subcategory": "Валики"
+        }
+      },
+      "priority_categories": ["кисти", "валики", "малярный инструмент"],
+      "discovery": {
+        "sitemap_urls": [
+          "https://remplanika.ru/sitemap_iblock_7.xml"
+        ],
+        "seed_urls": [
+          "https://remplanika.ru/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/kisti/02_2_000_kist_malyarnaya_mochalnaya_material_lipa_250_mm/",
+          "https://remplanika.ru/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/kisti/512_065_kist_makhovaya_d65_mm_km_65_svetlyy_smeshannyy_iskusstvennyy_vors_2k_ruchka_8sht_40sht_/",
+          "https://remplanika.ru/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/kisti/0114216_kist_ploskaya_premium_smeshannaya_shchetina_der_buk_ruk_100mm_kitay_/",
+          "https://remplanika.ru/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/kisti/0114215_kist_ploskaya_premium_smeshannaya_shchetina_der_buk_ruk_75mm_kitay_/",
+          "https://remplanika.ru/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/kisti/0114214_kist_ploskaya_premium_smeshannaya_shchetina_der_buk_ruk_63mm_kitay_/",
+          "https://remplanika.ru/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/valiki/0230125_valik_s_ruchkoy_tekstura_ekspert_mikrovolokno_9_250_40mm_d8mm_toolberg_rf/",
+          "https://remplanika.ru/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/valiki/0230124_valik_s_ruchkoy_tekstura_ekspert_mikrovolokno_9_180_40mm_d8mm_toolberg_rf/",
+          "https://remplanika.ru/catalog/ruchnoj-instrument-speczodezhda/malyarnyij-instrument/valiki/0220025_valik_smennyy_miks_ekspert_velyur_4_250_40mm_d8mm_toolberg_rf/"
+        ],
+        "product_slug_regex": "[0-9]"
+      },
+      "notes": "Только публичные URL без query-параметров, разрешённые robots.txt. Товарные slug содержат артикул или размер с цифрой; страницы всё равно подтверждаются microdata. Sitemap может быть XML-malformed, поэтому loc читаются толерантно."
+    }
+  ]
+}

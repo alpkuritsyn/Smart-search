@@ -1,0 +1,265 @@
+{
+  "schema_version": "entity-resolution-evaluation-v1",
+  "case_set_version": "entity-resolution-cases-v1",
+  "model": "qwen3-embedding:0.6b",
+  "total": 5,
+  "passed": 5,
+  "false_accepted_hard_filters": 0,
+  "max_latency_ms": 2440.971,
+  "results": [
+    {
+      "id": "brand-exact-cyrillic",
+      "passed": true,
+      "latency_ms": 6.568,
+      "result": {
+        "status": "exact",
+        "entity_type": "brand",
+        "matched_text": "тикурила",
+        "entity_id": "brand:tikkurila",
+        "display": "Tikkurila",
+        "score": 1.0,
+        "margin": 1.0,
+        "reason": "exact_canonical_or_alias_match",
+        "candidates": [],
+        "model": "qwen3-embedding:0.6b",
+        "index_version": "embedding-resolver-v1.1"
+      }
+    },
+    {
+      "id": "brand-typo-tikula",
+      "passed": true,
+      "latency_ms": 351.471,
+      "result": {
+        "status": "resolved",
+        "entity_type": "brand",
+        "matched_text": "Тикула",
+        "entity_id": "brand:tikkurila",
+        "display": "Tikkurila",
+        "score": 0.895547,
+        "margin": 0.287263,
+        "reason": "score_and_margin_passed",
+        "candidates": [
+          {
+            "entity_id": "brand:tikkurila",
+            "display": "Tikkurila",
+            "score": 0.895547,
+            "embedding_score": 0.916227,
+            "character_score": 0.857143,
+            "transliteration_score": 0.857143
+          },
+          {
+            "entity_id": "brand:dulux",
+            "display": "Dulux",
+            "score": 0.608284,
+            "embedding_score": 0.73661,
+            "character_score": 0.333333,
+            "transliteration_score": 0.461538
+          },
+          {
+            "entity_id": "brand:knauf",
+            "display": "Knauf",
+            "score": 0.596866,
+            "embedding_score": 0.722452,
+            "character_score": 0.363636,
+            "transliteration_score": 0.363636
+          },
+          {
+            "entity_id": "brand:matrix",
+            "display": "Matrix",
+            "score": 0.574568,
+            "embedding_score": 0.635431,
+            "character_score": 0.461538,
+            "transliteration_score": 0.461538
+          },
+          {
+            "entity_id": "brand:tex",
+            "display": "ТЕКС",
+            "score": 0.556231,
+            "embedding_score": 0.640355,
+            "character_score": 0.4,
+            "transliteration_score": 0.4
+          }
+        ],
+        "model": "qwen3-embedding:0.6b",
+        "index_version": "embedding-resolver-v1.1"
+      }
+    },
+    {
+      "id": "brand-short-ambiguous",
+      "passed": true,
+      "latency_ms": 416.825,
+      "result": {
+        "status": "suggestion",
+        "entity_type": "brand",
+        "matched_text": "тик",
+        "entity_id": null,
+        "display": null,
+        "score": 0.687314,
+        "margin": 0.005985,
+        "reason": "auto_resolution_gate_not_passed",
+        "candidates": [
+          {
+            "entity_id": "brand:tikkurila",
+            "display": "Tikkurila",
+            "score": 0.687314,
+            "embedding_score": 0.788176,
+            "character_score": 0.5,
+            "transliteration_score": 0.5
+          },
+          {
+            "entity_id": "brand:tex",
+            "display": "ТЕКС",
+            "score": 0.681329,
+            "embedding_score": 0.740507,
+            "character_score": 0.571429,
+            "transliteration_score": 0.571429
+          },
+          {
+            "entity_id": "brand:matrix",
+            "display": "Matrix",
+            "score": 0.652853,
+            "embedding_score": 0.681312,
+            "character_score": 0.6,
+            "transliteration_score": 0.6
+          },
+          {
+            "entity_id": "brand:knauf",
+            "display": "Knauf",
+            "score": 0.552993,
+            "embedding_score": 0.716143,
+            "character_score": 0.25,
+            "transliteration_score": 0.25
+          },
+          {
+            "entity_id": "brand:vgt",
+            "display": "VGT",
+            "score": 0.542813,
+            "embedding_score": 0.655609,
+            "character_score": 0.333333,
+            "transliteration_score": 0.333333
+          }
+        ],
+        "model": "qwen3-embedding:0.6b",
+        "index_version": "embedding-resolver-v1.1"
+      }
+    },
+    {
+      "id": "brand-unknown",
+      "passed": true,
+      "latency_ms": 449.298,
+      "result": {
+        "status": "suggestion",
+        "entity_type": "brand",
+        "matched_text": "неизвестныйбренд",
+        "entity_id": null,
+        "display": null,
+        "score": 0.501192,
+        "margin": 0.016008,
+        "reason": "auto_resolution_gate_not_passed",
+        "candidates": [
+          {
+            "entity_id": "brand:anza",
+            "display": "Anza",
+            "score": 0.501192,
+            "embedding_score": 0.663372,
+            "character_score": 0.2,
+            "transliteration_score": 0.2
+          },
+          {
+            "entity_id": "brand:ceresit",
+            "display": "Ceresit",
+            "score": 0.485184,
+            "embedding_score": 0.607641,
+            "character_score": 0.26087,
+            "transliteration_score": 0.25
+          },
+          {
+            "entity_id": "brand:parade",
+            "display": "Parade",
+            "score": 0.482221,
+            "embedding_score": 0.639314,
+            "character_score": 0.190476,
+            "transliteration_score": 0.190476
+          },
+          {
+            "entity_id": "brand:tikkurila",
+            "display": "Tikkurila",
+            "score": 0.469667,
+            "embedding_score": 0.632822,
+            "character_score": 0.166667,
+            "transliteration_score": 0.166667
+          },
+          {
+            "entity_id": "brand:vgt",
+            "display": "VGT",
+            "score": 0.461156,
+            "embedding_score": 0.59611,
+            "character_score": 0.210526,
+            "transliteration_score": 0.210526
+          }
+        ],
+        "model": "qwen3-embedding:0.6b",
+        "index_version": "embedding-resolver-v1.1"
+      }
+    },
+    {
+      "id": "product-name-typo-suggestion",
+      "passed": true,
+      "latency_ms": 2440.971,
+      "result": {
+        "status": "suggestion",
+        "entity_type": "product_name",
+        "matched_text": "масло валти терас ойл 9 л бесцветное",
+        "entity_id": null,
+        "display": null,
+        "score": 0.739859,
+        "margin": 0.009114,
+        "reason": "auto_resolution_gate_not_passed",
+        "candidates": [
+          {
+            "entity_id": "2704",
+            "display": "Масло для террас и садовой мебели Valtti Terrace Oil 9 л бесцветное",
+            "score": 0.739859,
+            "embedding_score": 0.79476,
+            "character_score": 0.621359,
+            "transliteration_score": 0.679245
+          },
+          {
+            "entity_id": "2742",
+            "display": "Масло для террас и садовой мебели Valtti Terrace Oil 0,9 л бесцветное",
+            "score": 0.730745,
+            "embedding_score": 0.787226,
+            "character_score": 0.609524,
+            "transliteration_score": 0.666667
+          },
+          {
+            "entity_id": "2771",
+            "display": "Масло для террас и садовой мебели Valtti Terrace Oil 2,7 л бесцветное",
+            "score": 0.714029,
+            "embedding_score": 0.771684,
+            "character_score": 0.590476,
+            "transliteration_score": 0.648148
+          },
+          {
+            "entity_id": "3842",
+            "display": "Здоровый Дом Масло для террас и деревянных полов 0,75 л бесцветное",
+            "score": 0.62481,
+            "embedding_score": 0.645857,
+            "character_score": 0.588235,
+            "transliteration_score": 0.579439
+          },
+          {
+            "entity_id": "3814",
+            "display": "Здоровый Дом Масло для террас и деревянных полов 1,8 л бесцветное",
+            "score": 0.621356,
+            "embedding_score": 0.637462,
+            "character_score": 0.594059,
+            "transliteration_score": 0.584906
+          }
+        ],
+        "model": "qwen3-embedding:0.6b",
+        "index_version": "embedding-resolver-v1.1"
+      }
+    }
+  ]
+}

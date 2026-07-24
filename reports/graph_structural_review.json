@@ -1,0 +1,104 @@
+{
+  "cases_version": "graph-tests-v1.1",
+  "status": "PASS",
+  "mode": "offline-structural",
+  "results": [
+    {
+      "case_id": "paint-core-complements",
+      "model": "offline-structural",
+      "review": {
+        "verdict": "PASS",
+        "reason": "Offline structural review for paint-core-complements: all explicit expectations satisfied",
+        "evidence": [
+          "required edge present: ('type:paint', 'APPLY_WITH', 'type:brush')",
+          "required edge present: ('type:paint', 'APPLY_WITH', 'type:roller')",
+          "required edge present: ('type:paint', 'LEVEL_WITH', 'type:putty')",
+          "required edge present: ('type:paint', 'PREPARE_WITH', 'type:primer')"
+        ],
+        "missing_evidence": [],
+        "risky_claims": []
+      }
+    },
+    {
+      "case_id": "primer-outgoing",
+      "model": "offline-structural",
+      "review": {
+        "verdict": "PASS",
+        "reason": "Offline structural review for primer-outgoing: all explicit expectations satisfied",
+        "evidence": [
+          "required edge present: ('type:primer', 'APPLY_WITH', 'type:brush')",
+          "required edge present: ('type:primer', 'APPLY_WITH', 'type:roller')"
+        ],
+        "missing_evidence": [],
+        "risky_claims": []
+      }
+    },
+    {
+      "case_id": "varnish-outgoing",
+      "model": "offline-structural",
+      "review": {
+        "verdict": "PASS",
+        "reason": "Offline structural review for varnish-outgoing: all explicit expectations satisfied",
+        "evidence": [
+          "required edge present: ('type:varnish', 'APPLY_WITH', 'type:brush')",
+          "required edge present: ('type:varnish', 'PREPARE_WITH', 'type:primer')"
+        ],
+        "missing_evidence": [],
+        "risky_claims": []
+      }
+    },
+    {
+      "case_id": "putty-outgoing",
+      "model": "offline-structural",
+      "review": {
+        "verdict": "PASS",
+        "reason": "Offline structural review for putty-outgoing: all explicit expectations satisfied",
+        "evidence": [
+          "required edge present: ('type:putty', 'PREPARE_WITH', 'type:primer')"
+        ],
+        "missing_evidence": [],
+        "risky_claims": []
+      }
+    },
+    {
+      "case_id": "tools-outgoing",
+      "model": "offline-structural",
+      "review": {
+        "verdict": "PASS",
+        "reason": "Offline structural review for tools-outgoing: all explicit expectations satisfied",
+        "evidence": [
+          "required edge present: ('type:brush', 'USE_WITH', 'type:paint')",
+          "required edge present: ('type:roller', 'USE_WITH', 'type:paint')"
+        ],
+        "missing_evidence": [],
+        "risky_claims": []
+      }
+    },
+    {
+      "case_id": "mixes-outgoing",
+      "model": "offline-structural",
+      "review": {
+        "verdict": "PASS",
+        "reason": "Offline structural review for mixes-outgoing: all explicit expectations satisfied",
+        "evidence": [
+          "required edge present: ('type:plaster', 'FINISH_WITH', 'type:putty')",
+          "required edge present: ('type:plaster', 'PREPARE_WITH', 'type:primer')",
+          "required edge present: ('type:tile_glue', 'PREPARE_WITH', 'type:primer')"
+        ],
+        "missing_evidence": [],
+        "risky_claims": []
+      }
+    },
+    {
+      "case_id": "no-brand-propagation",
+      "model": "offline-structural",
+      "review": {
+        "verdict": "PASS",
+        "reason": "Offline structural review for no-brand-propagation: all explicit expectations satisfied",
+        "evidence": [],
+        "missing_evidence": [],
+        "risky_claims": []
+      }
+    }
+  ]
+}

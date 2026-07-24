@@ -1,0 +1,54 @@
+{
+  "version": "graph-tests-v1.1",
+  "cases": [
+    {
+      "id": "paint-core-complements",
+      "query_tokens": ["paint", "primer", "putty", "brush", "roller"],
+      "question": "Есть ли у краски подготовка, выравнивание и инструменты нанесения?",
+      "expected": {
+        "required_edges": [
+          ["type:paint", "PREPARE_WITH", "type:primer"],
+          ["type:paint", "LEVEL_WITH", "type:putty"],
+          ["type:paint", "APPLY_WITH", "type:brush"],
+          ["type:paint", "APPLY_WITH", "type:roller"]
+        ]
+      }
+    },
+    {
+      "id": "primer-outgoing",
+      "query_tokens": ["primer", "brush", "roller"],
+      "question": "Есть ли у грунтовки инструменты нанесения?",
+      "expected": {"required_edges": [["type:primer", "APPLY_WITH", "type:brush"], ["type:primer", "APPLY_WITH", "type:roller"]]}
+    },
+    {
+      "id": "varnish-outgoing",
+      "query_tokens": ["varnish", "primer", "brush"],
+      "question": "Есть ли у лака подготовка и инструмент нанесения?",
+      "expected": {"required_edges": [["type:varnish", "PREPARE_WITH", "type:primer"], ["type:varnish", "APPLY_WITH", "type:brush"]]}
+    },
+    {
+      "id": "putty-outgoing",
+      "query_tokens": ["putty", "primer"],
+      "question": "Есть ли исходящий комплемент для шпатлевки?",
+      "expected": {"required_edges": [["type:putty", "PREPARE_WITH", "type:primer"]]}
+    },
+    {
+      "id": "tools-outgoing",
+      "query_tokens": ["brush", "roller", "paint"],
+      "question": "Возвращают ли кисти и валики связанные материалы?",
+      "expected": {"required_edges": [["type:brush", "USE_WITH", "type:paint"], ["type:roller", "USE_WITH", "type:paint"]]}
+    },
+    {
+      "id": "mixes-outgoing",
+      "query_tokens": ["plaster", "tile", "glue", "primer", "putty"],
+      "question": "Есть ли комплементы для штукатурки и плиточного клея?",
+      "expected": {"required_edges": [["type:plaster", "PREPARE_WITH", "type:primer"], ["type:plaster", "FINISH_WITH", "type:putty"], ["type:tile_glue", "PREPARE_WITH", "type:primer"]]}
+    },
+    {
+      "id": "no-brand-propagation",
+      "query_tokens": ["paint", "complement"],
+      "question": "Не переносит ли граф бренд primary на complements?",
+      "expected": {"required_edges": [], "forbidden_node_prefixes": ["brand:"]}
+    }
+  ]
+}

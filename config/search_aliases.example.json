@@ -1,0 +1,56 @@
+{
+  "version": "aliases-v1-example",
+  "normalization": {
+    "lowercase": true,
+    "replace_yo_with_e": true,
+    "normalize_whitespace": true,
+    "split_number_unit": true
+  },
+  "brands": [
+    {
+      "id": "brand:tikkurila",
+      "catalog_value": "ТИККУРИЛА",
+      "display": "Tikkurila",
+      "aliases": ["tikkurila", "тиккурила", "тикурила"]
+    },
+    {
+      "id": "brand:dulux",
+      "catalog_value": "DULUX",
+      "display": "Dulux",
+      "aliases": ["dulux", "дулюкс", "дюлакс"]
+    }
+  ],
+  "product_types": [
+    {
+      "id": "type:paint",
+      "display": "краска",
+      "aliases": ["краска", "краски", "краску"]
+    },
+    {
+      "id": "type:primer",
+      "display": "грунтовка",
+      "aliases": ["грунт", "грунтовка", "грунтовку"]
+    },
+    {
+      "id": "type:putty",
+      "display": "шпатлевка",
+      "aliases": ["шпатлевка", "шпатлёвка", "шпаклевка", "шпаклёвка"]
+    },
+    {
+      "id": "type:varnish",
+      "display": "лак",
+      "aliases": ["лак", "лаки", "лака"]
+    },
+    {
+      "id": "type:brush",
+      "display": "кисть",
+      "aliases": ["кисть", "кисти", "кисточка", "кисточки"]
+    }
+  ],
+  "fuzzy_policy": {
+    "enabled_for": ["brand", "product_type"],
+    "minimum_score": 0.92,
+    "minimum_margin_over_second": 0.08,
+    "on_ambiguity": "leave_unresolved"
+  }
+}

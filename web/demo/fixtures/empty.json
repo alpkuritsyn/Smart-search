@@ -1,0 +1,22 @@
+{
+  "query": {
+    "raw": "неизвестный запрос",
+    "normalized": "неизвестный запрос",
+    "brand_id": null,
+    "brand_display": null,
+    "product_type_id": null,
+    "product_type_display": null,
+    "attributes": {},
+    "unparsed_tokens": ["неизвестный", "запрос"]
+  },
+  "primary": {"title": "Товары не найдены", "products": []},
+  "complements": [],
+  "meta": {
+    "strategy": "deterministic_v1",
+    "fallback_used": false,
+    "catalog_version": "source-258daf8d",
+    "aliases_version": "aliases-v1-example",
+    "graph_version": "complement-graph-v1-seed",
+    "elapsed_ms": 5
+  }
+}

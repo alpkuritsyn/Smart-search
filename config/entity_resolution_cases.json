@@ -1,0 +1,45 @@
+{
+  "version": "entity-resolution-cases-v1",
+  "cases": [
+    {
+      "id": "brand-exact-cyrillic",
+      "text": "тикурила",
+      "entity_type": "brand",
+      "expected_entity_id": "brand:tikkurila",
+      "allowed_statuses": ["exact"],
+      "hard_filter_allowed": true
+    },
+    {
+      "id": "brand-typo-tikula",
+      "text": "Тикула",
+      "entity_type": "brand",
+      "expected_entity_id": "brand:tikkurila",
+      "allowed_statuses": ["resolved"],
+      "hard_filter_allowed": true
+    },
+    {
+      "id": "brand-short-ambiguous",
+      "text": "тик",
+      "entity_type": "brand",
+      "expected_entity_id": null,
+      "allowed_statuses": ["ambiguous", "suggestion"],
+      "hard_filter_allowed": false
+    },
+    {
+      "id": "brand-unknown",
+      "text": "неизвестныйбренд",
+      "entity_type": "brand",
+      "expected_entity_id": null,
+      "allowed_statuses": ["ambiguous", "suggestion"],
+      "hard_filter_allowed": false
+    },
+    {
+      "id": "product-name-typo-suggestion",
+      "text": "масло валти терас ойл 9 л бесцветное",
+      "entity_type": "product_name",
+      "expected_top_candidate_id": "2704",
+      "allowed_statuses": ["suggestion", "ambiguous"],
+      "hard_filter_allowed": false
+    }
+  ]
+}

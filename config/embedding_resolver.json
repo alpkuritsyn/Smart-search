@@ -1,0 +1,35 @@
+{
+  "version": "embedding-resolver-v1.2",
+  "enabled": true,
+  "provider": "ollama",
+  "base_url": "http://127.0.0.1:11434",
+  "model": "qwen3-embedding:0.6b",
+  "timeout_seconds": 120,
+  "batch_size": 16,
+  "entity_types": ["brand", "product_type", "product_name"],
+  "weights": {
+    "embedding": 0.65,
+    "character": 0.25,
+    "transliteration": 0.10
+  },
+  "decision_policy": {
+    "brand": {
+      "minimum_score": 0.88,
+      "minimum_margin_over_second": 0.08,
+      "auto_resolve": true
+    },
+    "product_type": {
+      "minimum_score": 0.82,
+      "minimum_margin_over_second": 0.06,
+      "auto_resolve": true
+    },
+    "product_name": {
+      "minimum_score": 0.92,
+      "minimum_margin_over_second": 0.10,
+      "auto_resolve": false
+    }
+  },
+  "on_unavailable": "deterministic_fallback",
+  "on_ambiguity": "leave_unresolved",
+  "calibration_required": true
+}

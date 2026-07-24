@@ -1,0 +1,113 @@
+{
+  "version": "aliases-v1",
+  "normalization": {
+    "lowercase": true,
+    "replace_yo_with_e": true,
+    "normalize_whitespace": true,
+    "split_number_unit": true
+  },
+  "brands": [
+    {
+      "id": "brand:tikkurila",
+      "catalog_value": "ТИККУРИЛА",
+      "display": "Tikkurila",
+      "aliases": ["tikkurila", "тиккурила", "тикурила"]
+    },
+    {
+      "id": "brand:dulux",
+      "catalog_value": "DULUX",
+      "display": "Dulux",
+      "aliases": ["dulux", "дулюкс", "дюлакс"]
+    },
+    {
+      "id": "brand:tex",
+      "catalog_value": "ТЕКС",
+      "display": "ТЕКС",
+      "aliases": ["текс", "tex"]
+    },
+    {
+      "id": "brand:knauf",
+      "catalog_value": "КНАУФ",
+      "display": "Knauf",
+      "aliases": ["knauf", "кнауф"]
+    },
+    {
+      "id": "brand:vgt",
+      "catalog_value": "ВГТ",
+      "display": "VGT",
+      "aliases": ["vgt", "вгт"]
+    },
+    {
+      "id": "brand:parade",
+      "catalog_value": "PARADE",
+      "display": "Parade",
+      "aliases": ["parade", "парад", "параде"]
+    },
+    {
+      "id": "brand:ceresit",
+      "catalog_value": "CERESIT",
+      "display": "Ceresit",
+      "aliases": ["ceresit", "церезит"]
+    },
+    {
+      "id": "brand:matrix",
+      "catalog_value": "Matrix",
+      "display": "Matrix",
+      "aliases": ["matrix", "матрикс"]
+    },
+    {
+      "id": "brand:anza",
+      "catalog_value": "Anza",
+      "display": "Anza",
+      "aliases": ["anza", "анза"]
+    }
+  ],
+  "product_types": [
+    {
+      "id": "type:paint",
+      "display": "краска",
+      "aliases": ["краска", "краски", "краску", "эмаль"]
+    },
+    {
+      "id": "type:primer",
+      "display": "грунтовка",
+      "aliases": ["грунт", "грунтовка", "грунтовку", "праймер"]
+    },
+    {
+      "id": "type:putty",
+      "display": "шпаклёвка",
+      "aliases": ["шпатлевка", "шпатлёвка", "шпаклевка", "шпаклёвка", "шпаклевку", "шпатлевку"]
+    },
+    {
+      "id": "type:varnish",
+      "display": "лак",
+      "aliases": ["лак", "лаки", "лака"]
+    },
+    {
+      "id": "type:brush",
+      "display": "кисть",
+      "aliases": ["кисть", "кисти", "кисточка", "кисточки"]
+    },
+    {
+      "id": "type:roller",
+      "display": "валик",
+      "aliases": ["валик", "валики"]
+    },
+    {
+      "id": "type:plaster",
+      "display": "штукатурка",
+      "aliases": ["штукатурка", "штукатурку"]
+    },
+    {
+      "id": "type:tile_glue",
+      "display": "клей для плитки",
+      "aliases": ["плиточный клей", "клей для плитки"]
+    }
+  ],
+  "fuzzy_policy": {
+    "enabled_for": ["brand", "product_type"],
+    "minimum_score": 0.92,
+    "minimum_margin_over_second": 0.08,
+    "on_ambiguity": "leave_unresolved"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "version": "parser-ingestion-v2-live",
+  "run_started_at": "2026-07-22T09:28:52Z",
+  "run_finished_at": "2026-07-22T09:49:01Z",
+  "config": "config/parser_sources.json",
+  "sources": [
+    {
+      "source_id": "source:remplanika-public-catalog",
+      "discovered_candidates": 513,
+      "selected_candidates": 513,
+      "fetched_pages": 343,
+      "attempted_candidates": 513,
+      "parsed_products": 337,
+      "skipped_non_product_pages": 6,
+      "skipped_404_pages": 170,
+      "errors": 170,
+      "parse_success_pct": 98.25,
+      "discovery_filter": "[0-9]"
+    }
+  ],
+  "fetched_pages": 343,
+  "attempted_candidates": 513,
+  "parsed_products": 337,
+  "new_unique_products": 334,
+  "verified_existing_products": 0,
+  "staging_total": 334,
+  "errors": 170,
+  "full_run": true,
+  "minimum_parse_success_pct": 95.0,
+  "synthetic_rows_allowed": false
+}

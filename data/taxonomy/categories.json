@@ -1,0 +1,31 @@
+{
+  "version": "taxonomy-v1",
+  "categories": [
+    {
+      "id": "cat:paint_and_coatings",
+      "name": "Лакокрасочные материалы",
+      "product_types": [
+        {"id": "type:paint", "name": "Краска"},
+        {"id": "type:primer", "name": "Грунтовка"},
+        {"id": "type:putty", "name": "Шпатлевка"},
+        {"id": "type:varnish", "name": "Лак"}
+      ]
+    },
+    {
+      "id": "cat:tools",
+      "name": "Малярный инструмент",
+      "product_types": [
+        {"id": "type:brush", "name": "Кисть"},
+        {"id": "type:roller", "name": "Валик"}
+      ]
+    },
+    {
+      "id": "cat:building_mixes",
+      "name": "Строительные смеси",
+      "product_types": [
+        {"id": "type:plaster", "name": "Штукатурка"},
+        {"id": "type:tile_glue", "name": "Клей для плитки"}
+      ]
+    }
+  ]
+}

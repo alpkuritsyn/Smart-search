@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://smart-search.local/contracts/entity-resolution-v1.1.schema.json",
+  "title": "Embedding entity resolution result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "entity_type", "matched_text", "entity_id", "display", "score", "margin", "candidates", "model", "index_version"],
+  "properties": {
+    "status": {"enum": ["exact", "resolved", "best_effort", "suggestion", "ambiguous", "unavailable"]},
+    "entity_type": {"enum": ["brand", "product_type", "product_name"]},
+    "matched_text": {"type": "string"},
+    "entity_id": {"type": ["string", "null"]},
+    "display": {"type": ["string", "null"]},
+    "score": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "margin": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "reason": {"type": ["string", "null"]},
+    "original_status": {"type": ["string", "null"]},
+    "model": {"type": ["string", "null"]},
+    "index_version": {"type": ["string", "null"]},
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["entity_id", "display", "score", "embedding_score", "character_score", "transliteration_score"],
+        "properties": {
+          "entity_id": {"type": "string"},
+          "display": {"type": "string"},
+          "score": {"type": "number", "minimum": 0, "maximum": 1},
+          "embedding_score": {"type": "number", "minimum": 0, "maximum": 1},
+          "character_score": {"type": "number", "minimum": 0, "maximum": 1},
+          "transliteration_score": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    }
+  }
+}

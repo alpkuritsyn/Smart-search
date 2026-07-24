@@ -1,0 +1,93 @@
+{
+  "query": {
+    "raw": "краска тикурила",
+    "normalized": "краска tikkurila",
+    "brand_id": "brand:tikkurila",
+    "brand_display": "Tikkurila",
+    "product_type_id": "type:paint",
+    "product_type_display": "Краска",
+    "attributes": {},
+    "unparsed_tokens": []
+  },
+  "primary": {
+    "title": "Найденные краски Tikkurila",
+    "products": [
+      {
+        "id": 3277,
+        "name": "Краска интерьерная Euro Matt 3 Tikkurila 0,9 л База С (бесцветный) глубокоматовая",
+        "brand": "ТИККУРИЛА",
+        "price": 879,
+        "category": "Лакокрасочные материалы",
+        "subcategory": "Краски водно-дисперсионные — Для внутренних работ",
+        "url": "https://remplanika.ru/catalog/lakokrasochnyie-materialyi/kraska-vodnaya/dlya-sten-i-potolka/tikkurila/euro-matt-3-s-gl-mat-0-9l-kraska-interernaya/"
+      },
+      {
+        "id": 3288,
+        "name": "Краска интерьерная для обоев и стен Euro Trend Tikkurila 9 л База A (белый) матовая",
+        "brand": "ТИККУРИЛА",
+        "price": 9649,
+        "category": "Лакокрасочные материалы",
+        "subcategory": "Краски водно-дисперсионные — Для внутренних работ",
+        "url": "https://remplanika.ru/catalog/lakokrasochnyie-materialyi/kraska-vodnaya/dlya-sten-i-potolka/tikkurila/euro-trend-a-mat-9l-kraska-d-oboev-i-sten/"
+      },
+      {
+        "id": 3296,
+        "name": "Краска интерьерная Euro Matt 3 Tikkurila 9 л База С (бесцветный) глубокоматовая",
+        "brand": "ТИККУРИЛА",
+        "price": 7399,
+        "category": "Лакокрасочные материалы",
+        "subcategory": "Краски водно-дисперсионные — Для внутренних работ",
+        "url": "https://remplanika.ru/catalog/lakokrasochnyie-materialyi/kraska-vodnaya/dlya-sten-i-potolka/tikkurila/euro-matt-3-s-gl-mat-9l-kraska-interernaya/"
+      },
+      {
+        "id": 3299,
+        "name": "Краска моющаяся Euro Power 7 Tikkurila 2,7 л База С (бесцветный) матовая",
+        "brand": "ТИККУРИЛА",
+        "price": 2649,
+        "category": "Лакокрасочные материалы",
+        "subcategory": "Краски водно-дисперсионные — Для внутренних работ",
+        "url": "https://remplanika.ru/catalog/lakokrasochnyie-materialyi/kraska-vodnaya/dlya-sten-i-potolka/tikkurila/euro-power-7s-mat-2-7l-kraska-stojkaya-k-myityu/"
+      }
+    ]
+  },
+  "complements": [
+    {
+      "title": "Для подготовки: грунтовки",
+      "relation": "PREPARE_WITH",
+      "rationale": "Категория подготовки поверхности перед окрашиванием. Конкретный состав выбирается под основание.",
+      "data_gap": false,
+      "products": [
+        {"id": 3061, "name": "Грунт глубокого проникновения Боларс 10 кг молочно-белый", "brand": "БОЛАРС", "price": 673, "category": "Лакокрасочные материалы", "subcategory": "Грунтовки — Для внутренних работ", "url": "https://remplanika.ru/catalog/lakokrasochnyie-materialyi/gruntovki/dlya-vnutrennix-rabot/bolars/grunt-glubokogo-proniknoveniya-10-l-bolars/"},
+        {"id": 3063, "name": "Грунт Acryl-Primer Боларс 7 кг белый", "brand": "БОЛАРС", "price": 833, "category": "Лакокрасочные материалы", "subcategory": "Грунтовки — Для внутренних работ", "url": "https://remplanika.ru/catalog/lakokrasochnyie-materialyi/gruntovki/dlya-vnutrennix-rabot/bolars/grunt-acryl-primer-2100-7-kg/"},
+        {"id": 3066, "name": "Грунт ACRYL-PRAIMER QUARZ (1908) 3 кг", "brand": "БОЛАРС", "price": 757, "category": "Лакокрасочные материалы", "subcategory": "Грунтовки — Для внутренних работ", "url": "https://remplanika.ru/catalog/lakokrasochnyie-materialyi/gruntovki/dlya-vnutrennix-rabot/bolars/grunt_acryl_praimer_quarz_1908_3kg/"}
+      ]
+    },
+    {
+      "title": "Для выравнивания: шпатлевки",
+      "relation": "LEVEL_WITH",
+      "rationale": "Эта категория может потребоваться, если поверхность нужно выровнять до окрашивания; это не гарантия совместимости конкретных SKU.",
+      "data_gap": false,
+      "products": [
+        {"id": 4815, "name": "Шпатлевка по дереву Лакра 0,6 кг белый", "brand": "ГОТОВАЯ ШПАТЛЕВКА", "price": 204, "category": "Сухие строительные смеси и гидроизоляция", "subcategory": "Шпатлевки", "url": ""},
+        {"id": 4816, "name": "Шпатлевка по дереву Лакра 1,5 кг белый", "brand": "ГОТОВАЯ ШПАТЛЕВКА", "price": 335, "category": "Сухие строительные смеси и гидроизоляция", "subcategory": "Шпатлевки", "url": ""},
+        {"id": 4817, "name": "Шпатлевка по дереву Лакра 0,6 кг береза", "brand": "ГОТОВАЯ ШПАТЛЕВКА", "price": 204, "category": "Сухие строительные смеси и гидроизоляция", "subcategory": "Шпатлевки", "url": ""}
+      ]
+    },
+    {
+      "title": "Для нанесения: кисти",
+      "relation": "APPLY_WITH",
+      "rationale": "Инструмент нанесения покрытия.",
+      "data_gap": true,
+      "data_gap_message": "В исходном каталоге кистей нет. Их карточки должен загрузить Product Parser Agent.",
+      "products": []
+    }
+  ],
+  "meta": {
+    "strategy": "deterministic_v1",
+    "fallback_used": false,
+    "catalog_version": "source-258daf8d",
+    "aliases_version": "aliases-v1-example",
+    "graph_version": "complement-graph-v1-seed",
+    "elapsed_ms": 12
+  }
+}

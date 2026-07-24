@@ -1,0 +1,27 @@
+{
+  "catalog_products": 5341,
+  "mapped_products": 1546,
+  "catalog_mapping_pct": 28.95,
+  "scoped_products": 1546,
+  "scoped_types_with_products": 8,
+  "scoped_types_with_outgoing_edges": 8,
+  "scoped_type_outgoing_coverage_pct": 100.0,
+  "scoped_products_with_outgoing_edges": 1546,
+  "scoped_product_outgoing_coverage_pct": 100.0,
+  "approved_edges": 17,
+  "missing_graph_nodes": [],
+  "missing_outgoing_types": [],
+  "empty_edge_targets": [],
+  "products_by_type": {
+    "type:brush": 164,
+    "type:paint": 688,
+    "type:plaster": 57,
+    "type:primer": 136,
+    "type:putty": 133,
+    "type:roller": 165,
+    "type:tile_glue": 80,
+    "type:varnish": 123
+  },
+  "status": "PASS",
+  "errors": []
+}

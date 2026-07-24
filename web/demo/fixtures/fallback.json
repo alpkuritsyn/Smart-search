@@ -1,0 +1,27 @@
+{
+  "query": {
+    "raw": "старый поиск",
+    "normalized": "старый поиск",
+    "brand_id": null,
+    "brand_display": null,
+    "product_type_id": null,
+    "product_type_display": null,
+    "attributes": {},
+    "unparsed_tokens": ["старый", "поиск"]
+  },
+  "primary": {
+    "title": "Результаты существующего поиска",
+    "products": [
+      {"id": 3277, "name": "Пример карточки из frozen legacy результата", "brand": "ТИККУРИЛА", "price": 879, "category": "Лакокрасочные материалы", "subcategory": "Legacy fixture", "url": ""}
+    ]
+  },
+  "complements": [],
+  "meta": {
+    "strategy": "legacy_fallback",
+    "fallback_used": true,
+    "catalog_version": "source-258daf8d",
+    "aliases_version": "aliases-v1-example",
+    "graph_version": "not_used",
+    "elapsed_ms": 7
+  }
+}

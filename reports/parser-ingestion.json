@@ -1,0 +1,49 @@
+{
+  "version": "parser-ingestion-v3-full-catalog",
+  "status": "PASS",
+  "run_started_at": "2026-07-23T14:22:41Z",
+  "run_finished_at": "2026-07-23T14:30:24Z",
+  "config": "config/parser_sources.json",
+  "discovery_manifest": "data/staging/parser_discovery_manifest.json",
+  "discovery_manifest_sha256": "cb864afb41a62d2f45ab95e7d45b7dde2b55b3199b9b1b6b0095077aa89fc15e",
+  "manifest_candidates": 34530,
+  "sources": [
+    {
+      "source_id": "source:remplanika-public-catalog",
+      "catalog_scope": "full_catalog",
+      "allowed_paths": [
+        "/catalog/"
+      ],
+      "sitemap_urls_seen": 37675,
+      "allowed_unique_urls": 37675,
+      "leaf_only": true,
+      "leaf_candidates": 34529,
+      "slug_filter": null,
+      "discovered_candidates": 34530,
+      "selected_candidates": 34530,
+      "fetched_pages": 636,
+      "attempted_candidates": 34530,
+      "parsed_products": 636,
+      "reused_verified_products": 0,
+      "skipped_non_product_pages": 0,
+      "skipped_404_pages": 284,
+      "errors": 284,
+      "parse_success_pct": 100.0,
+      "discovery_filter": null,
+      "manifest_complete": true
+    }
+  ],
+  "fetched_pages": 636,
+  "attempted_candidates": 34530,
+  "parsed_products": 636,
+  "new_unique_products": 630,
+  "verified_existing_products": 20194,
+  "staging_total": 20824,
+  "errors": 284,
+  "catalog_scope": "full_catalog",
+  "catalog_scope_complete": true,
+  "manifest_complete": true,
+  "full_run": true,
+  "minimum_parse_success_pct": 95.0,
+  "synthetic_rows_allowed": false
+}

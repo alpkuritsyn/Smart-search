@@ -1,0 +1,18 @@
+{
+  "version": "release-scope-v1.1",
+  "description": "Типы, по которым V1 имеет право заявлять комплементарную выдачу. Это не весь каталог.",
+  "product_type_ids": [
+    "type:paint",
+    "type:primer",
+    "type:putty",
+    "type:varnish",
+    "type:brush",
+    "type:roller",
+    "type:plaster",
+    "type:tile_glue"
+  ],
+  "minimum_catalog_mapping_pct": 20.0,
+  "minimum_scoped_type_outgoing_coverage_pct": 100.0,
+  "minimum_scoped_product_outgoing_coverage_pct": 100.0,
+  "require_all_edge_targets_materialized": true
+}

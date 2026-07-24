@@ -1,0 +1,8 @@
+{
+  "source_project": "Paints_Chat/chat_mvp/data/catalog.json",
+  "copied_at": "2026-07-21",
+  "record_count": 5007,
+  "sha256": "258daf8dba484910b6a89d50e6cfaca41e62eb1f9215c9ca51415e78a554866b",
+  "immutable": true,
+  "notes": "Стартовый snapshot. Не редактировать вручную; новые товары проходят raw -> staging -> canonical."
+}

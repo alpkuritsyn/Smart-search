@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Владимиров и партнер — чат с консультантом</title>
+<style>
+  :root {
+    --brand: #d97706;
+    --brand-dark: #92400e;
+    --bg: #f5f2ee;
+    --bubble-user: #d97706;
+    --bubble-bot: #ffffff;
+    --text-dark: #2b2320;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    height: 100dvh;
+  }
+  .demo-wrap {
+    width: 100%;
+    max-width: 1100px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .site-mock {
+    display: flex;
+    width: 100%;
+    height: 92vh;
+    max-height: 820px;
+    gap: 16px;
+    padding: 16px;
+  }
+  .fake-site {
+    flex: 1;
+    background: #fff;
+    border-radius: 10px;
+    padding: 28px;
+    color: #6b6258;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    overflow: auto;
+  }
+  .fake-site h1 { color: var(--text-dark); margin-top: 0; }
+  .fake-site .tag {
+    display: inline-block;
+    background: #fef3e2;
+    color: var(--brand-dark);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+  .chat-panel {
+    width: 400px;
+    min-width: 340px;
+    min-height: 0;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .chat-header {
+    flex: 0 0 auto;
+    background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+    color: #fff;
+    padding: 16px 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .chat-header .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #7CFC9A;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.4);
+  }
+  .chat-header small {
+    display: block;
+    font-weight: 400;
+    opacity: 0.85;
+    font-size: 12px;
+  }
+  .messages {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #faf8f5;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    touch-action: pan-x pan-y;
+    scrollbar-gutter: stable;
+  }
+  .msg {
+    max-width: 85%;
+    padding: 10px 13px;
+    border-radius: 12px;
+    line-height: 1.45;
+    font-size: 14px;
+    white-space: pre-wrap;
+  }
+  .msg.user {
+    align-self: flex-end;
+    background: var(--bubble-user);
+    color: #fff;
+    border-bottom-right-radius: 3px;
+  }
+  .msg.bot {
+    align-self: flex-start;
+    background: var(--bubble-bot);
+    border: 1px solid #eee;
+    color: var(--text-dark);
+    border-bottom-left-radius: 3px;
+  }
+  .msg.bot.pending {
+    color: #999;
+    font-style: italic;
+  }
+  .msg.bot.error {
+    border-color: #f3c1c1;
+    background: #fdecec;
+    color: #a33;
+  }
+  .msg.bot.rich-response { width: 100%; max-width: 100%; min-width: 0; padding: 14px; display: flex; flex-direction: column; gap: 13px; white-space: normal; overflow: visible; }
+  .bot-response__text { white-space: pre-wrap; }
+  .product-group { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .product-group__title { font-size: 19px; font-weight: 850; line-height: 1.2; }
+  .product-row { display: grid; grid-auto-flow: column; grid-auto-columns: 128px; gap: 11px; min-width: 0; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; padding: 1px 1px 6px; }
+  .product-row::-webkit-scrollbar { display: none; }
+  .product-group__more { display: flex; min-height: 218px; box-sizing: border-box; flex-direction: column; align-items: center; justify-content: center; color: #171717; font-size: 14px; font-weight: 750; line-height: 1.2; text-align: center; text-decoration: none; contain: layout paint style; content-visibility: auto; contain-intrinsic-size: 128px 218px; }
+  .product-group__more-icon { display: flex; width: 72px; height: 72px; flex: 0 0 72px; align-items: center; justify-content: center; border-radius: 50%; background: #f1f1f1; font: 400 35px/1 Arial, sans-serif; transition: background .15s, color .15s, transform .15s; }
+  .product-group__more-label { margin-top: 13px; white-space: nowrap; }
+  .product-group__more:hover .product-group__more-icon { background: #171717; color: #fff; transform: translateX(2px); }
+  .product-card { display: flex; flex-direction: column; gap: 6px; min-width: 0; color: #171717; contain: layout paint style; content-visibility: auto; contain-intrinsic-size: 128px 235px; }
+  .product-card__media { position: relative; height: 142px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #f3f3f2; border-radius: 20px; contain: paint; }
+  .product-card__image { position: absolute; inset: 0; width: 100%; height: 100%; padding: 10px; object-fit: contain; }
+  .product-card__placeholder { position: absolute; display: flex; align-items: center; justify-content: center; width: 70px; height: 70px; border-radius: 50%; background: #fff; color: #777; font-size: 23px; font-weight: 850; text-transform: uppercase; }
+  .product-card__name { display: -webkit-box; overflow: hidden; color: #171717; font-size: 12.5px; font-weight: 650; line-height: 1.28; text-decoration: none; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+  a.product-card__name:hover { color: var(--brand); }
+  .product-card__meta { overflow: hidden; color: #999; font-size: 11px; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
+  .product-card__price { color: #ed3d32; font-size: 19px; font-weight: 850; line-height: 1.15; white-space: nowrap; }
+  .product-card__cart { position: absolute; right: 8px; bottom: 8px; width: 42px; height: 42px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #111; box-shadow: 0 2px 7px rgba(0,0,0,.13); font: 500 27px/1 Arial,sans-serif; cursor: pointer; transition: background .15s, color .15s; }
+  .product-card__cart:hover { background: #111; color: #fff; }
+  .product-card__cart.is-in-cart { background: #258348; color: #fff; }
+  .product-card__cart.is-in-cart:hover { background: #d7352f; color: #fff; }
+  .product-card__status { min-height: 11px; color: #258348; font-size: 9px; font-weight: 700; line-height: 1.15; }
+  .product-comparison { min-width: 0; display: flex; flex-direction: column; gap: 9px; }
+  .product-comparison__title { font-size: 16px; font-weight: 850; line-height: 1.2; }
+  .product-comparison__scroll { width: 100%; min-width: 0; overflow-x: hidden; }
+  .product-comparison__table { width: 100%; min-width: 0; border-collapse: collapse; background: transparent; table-layout: fixed; }
+  .product-comparison__table th, .product-comparison__table td { min-width: 0; padding: 12px 8px; border: 0; border-bottom: 1px solid #d8d8d8; vertical-align: top; text-align: left; overflow-wrap: anywhere; word-break: normal; }
+  .product-comparison__table thead th { border-bottom: 2px solid #8e8d98; color: #262626; font-size: 11.5px; font-weight: 700; white-space: normal; }
+  .product-comparison__table tbody tr:last-child td { border-bottom: 0; }
+  .comparison-table__brand { overflow: hidden; margin-bottom: 4px; color: #999; font-size: 9px; font-weight: 700; letter-spacing: .04em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+  .comparison-table__name { display: block; color: #747474; font-size: 12px; font-weight: 500; line-height: 1.35; text-decoration: none; }
+  a.comparison-table__name:hover { color: var(--brand); }
+  .comparison-table__price { color: #222; font-size: 14px; font-weight: 650; line-height: 1.2; white-space: nowrap; text-align: right; }
+  .comparison-table__summary { color: #555; font-size: 11.5px; line-height: 1.4; }
+  .comparison-analysis { padding: 11px 12px; border-left: 3px solid var(--brand); border-radius: 0 11px 11px 0; background: #f3f3f3; color: #333; line-height: 1.45; }
+  .comparison-analysis__label { display: block; margin-bottom: 4px; color: #171717; font-size: 12px; font-weight: 850; }
+  .comparison-analysis__text { font-size: 12px; white-space: pre-wrap; }
+  .suggestions {
+    flex: 0 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0 16px 10px;
+    background: #faf8f5;
+  }
+  .suggestions button {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    border: 1px solid #e6ddcf;
+    background: #fff;
+    color: var(--brand-dark);
+    cursor: pointer;
+  }
+  .suggestions button:hover { background: #fef3e2; }
+  .input-row {
+    flex: 0 0 auto;
+    display: flex;
+    padding: 12px;
+    border-top: 1px solid #eee;
+    gap: 8px;
+    background: #fff;
+  }
+  .input-row textarea {
+    flex: 1;
+    resize: none;
+    border: 1px solid #e2ddd5;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    height: 42px;
+    max-height: 100px;
+  }
+  .input-row button {
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0 18px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .input-row button:disabled { opacity: 0.5; cursor: default; }
+
+  @media (max-width: 768px) {
+    .demo-wrap { max-width: 100%; height: 100%; }
+    .site-mock {
+      flex-direction: column;
+      height: 100%;
+      max-height: none;
+      padding: 0;
+      gap: 0;
+    }
+    .fake-site { display: none; }
+    .chat-panel {
+      width: 100%;
+      min-width: 0;
+      height: 100%;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .msg { max-width: 92%; }
+    .chat-header { padding: 14px 16px; }
+    .input-row {
+      padding: 10px;
+      padding-bottom: max(10px, env(safe-area-inset-bottom));
+    }
+    .input-row textarea {
+      font-size: 16px; /* iOS зумит страницу при фокусе, если < 16px */
+    }
+    .input-row button { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="demo-wrap">
+  <div class="site-mock">
+    <div class="fake-site">
+      <span class="tag">MVP-демо для показа заказчику</span>
+      <h1>Владимиров и партнер</h1>
+      <p>Строительные материалы: сухие смеси, гидроизоляция, краски и эмали.</p>
+      <p>Это макет страницы сайта — справа встроен реальный чат-виджет,
+         который отвечает через Gemini на основе прайс-листа магазина.</p>
+      <p>Попробуйте спросить в чате что-то вроде:</p>
+      <p>«Какие материалы мне потребуются для строительства дома?»</p>
+      <p>«Сравни Мастику битумную FARBITEX 2 кг и 4 кг»</p>
+      <p>«Посоветуй краску Tikkurila для стен на кухне»</p>
+    </div>
+    <div class="chat-panel">
+      <div class="chat-header">
+        <span class="dot"></span>
+        <div>
+          Онлайн-консультант
+          <small>обычно отвечает за 5–10 секунд</small>
+        </div>
+      </div>
+      <div class="messages" id="messages">
+        <div class="msg bot">Здравствуйте! Я помогу подобрать материалы или сравнить товары из нашего каталога. Что вас интересует?</div>
+      </div>
+      <div class="suggestions">
+        <button data-q="Какие материалы мне потребуются для строительства дома?">Материалы для дома</button>
+        <button data-q="Сравни гидроизоляцию Bitumast и мастику FARBITEX">Сравнить товары</button>
+        <button data-q="Посоветуй краску Tikkurila для стен на кухне">Краска для стен</button>
+      </div>
+      <div class="input-row">
+        <textarea id="input" maxlength="400" placeholder="Напишите сообщение (до 400 символов)..."></textarea>
+        <button id="send">Отправить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const messagesEl = document.getElementById('messages');
+const inputEl = document.getElementById('input');
+const sendBtn = document.getElementById('send');
+const MAX_USER_MESSAGE_CHARS = 400;
+const MAX_RENDERED_MESSAGES = 30;
+const CART_STORAGE_KEY = 'remplanika-demo-cart-v1';
+
+let history = [];
+let cart = loadCart();
+
+function loadCart() {
+  try {
+    const value = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '[]');
+    return Array.isArray(value) ? value : [];
+  } catch (error) { return []; }
+}
+
+function saveCart() {
+  try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart)); } catch (error) {}
+}
+
+function cartHas(productId) {
+  return cart.some(item => String(item.id) === String(productId));
+}
+
+function syncCartButtons() {
+  document.querySelectorAll('.product-card__cart[data-product-id]').forEach(button => {
+    const inCart = cartHas(button.dataset.productId);
+    button.classList.toggle('is-in-cart', inCart);
+    button.textContent = inCart ? '✓' : '+';
+    button.setAttribute('aria-pressed', String(inCart));
+    button.setAttribute('aria-label', inCart ? 'Убрать из корзины' : 'Добавить в корзину');
+    button.title = inCart ? 'Убрать из корзины' : 'Добавить в корзину';
+  });
+}
+
+if (location.protocol === 'file:') {
+  const warn = document.createElement('div');
+  warn.className = 'msg bot error';
+  warn.textContent = 'Похоже, страница открыта напрямую двойным кликом по файлу (file://). ' +
+    'В таком режиме чат работать не может — нужен запущенный сервер. Закройте эту вкладку, ' +
+    'запустите run.bat в этой же папке и откройте адрес http://localhost:8000 в браузере.';
+  messagesEl.appendChild(warn);
+}
+
+let pendingScrollFrame = 0;
+function appendChatNode(node) {
+  messagesEl.appendChild(node);
+  while (messagesEl.children.length > MAX_RENDERED_MESSAGES) {
+    messagesEl.firstElementChild.remove();
+  }
+}
+
+function scrollMessagesToBottom() {
+  cancelAnimationFrame(pendingScrollFrame);
+  pendingScrollFrame = requestAnimationFrame(() => {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  });
+}
+
+function addBubble(text, role, extraClass) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + (role === 'user' ? 'user' : 'bot') + (extraClass ? ' ' + extraClass : '');
+  div.textContent = text;
+  appendChatNode(div);
+  scrollMessagesToBottom();
+  return div;
+}
+
+function formatPrice(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? new Intl.NumberFormat('ru-RU').format(number) + ' ₽' : 'Цена по запросу';
+}
+
+function createProductCard(product) {
+    const card = document.createElement('article');
+    card.className = 'product-card';
+    const media = document.createElement('div');
+    media.className = 'product-card__media';
+    const placeholder = document.createElement('div');
+    placeholder.className = 'product-card__placeholder';
+    placeholder.textContent = (product.brand || product.name || 'Т').trim().slice(0, 2);
+    media.appendChild(placeholder);
+    if (product.image) {
+      const image = document.createElement('img');
+      image.className = 'product-card__image';
+      image.alt = '';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.fetchPriority = 'low';
+      image.src = product.image;
+      image.addEventListener('load', () => placeholder.remove());
+      image.addEventListener('error', () => image.remove());
+      media.appendChild(image);
+    }
+    const name = document.createElement(product.url ? 'a' : 'div');
+    name.className = 'product-card__name';
+    name.textContent = product.name || 'Товар из каталога';
+    if (product.url) {
+      name.href = product.url;
+      name.target = '_blank';
+      name.rel = 'noopener noreferrer';
+    }
+    const meta = document.createElement('div');
+    meta.className = 'product-card__meta';
+    meta.textContent = [product.brand || '', product.sku ? 'арт. ' + product.sku : ''].filter(Boolean).join(' · ');
+    const price = document.createElement('strong');
+    price.className = 'product-card__price';
+    price.textContent = formatPrice(product.price);
+    const cartButton = document.createElement('button');
+    cartButton.type = 'button';
+    cartButton.className = 'product-card__cart';
+    cartButton.dataset.productId = String(product.id);
+    const status = document.createElement('div');
+    status.className = 'product-card__status';
+    status.setAttribute('aria-live', 'polite');
+    cartButton.addEventListener('click', () => {
+      if (cartHas(product.id)) {
+        cart = cart.filter(item => String(item.id) !== String(product.id));
+        status.textContent = 'Товар удалён из корзины';
+      } else {
+        cart.push({...product, quantity: 1});
+        status.textContent = 'Товар добавлен в корзину';
+      }
+      saveCart();
+      syncCartButtons();
+    });
+    const inCart = cartHas(product.id);
+    cartButton.classList.toggle('is-in-cart', inCart);
+    cartButton.textContent = inCart ? '✓' : '+';
+    cartButton.setAttribute('aria-pressed', String(inCart));
+    cartButton.setAttribute('aria-label', inCart ? 'Убрать из корзины' : 'Добавить в корзину');
+    cartButton.title = inCart ? 'Убрать из корзины' : 'Добавить в корзину';
+    media.appendChild(cartButton);
+    card.append(media, price, name, meta, status);
+    return card;
+}
+
+function productGroupBlocks(products) {
+  const groups = new Map();
+  (Array.isArray(products) ? products : []).forEach(product => {
+    const category = product.category || 'Другие товары';
+    if (!groups.has(category)) groups.set(category, []);
+    groups.get(category).push(product);
+  });
+  return [...groups].map(([category, items]) => ({type: 'product_group', category, products: items, category_url: items[0]?.category_url || ''}));
+}
+
+function createProductGroup(category, products, categoryUrl) {
+  const section = document.createElement('section');
+  section.className = 'product-group';
+  const title = document.createElement('div');
+  title.className = 'product-group__title';
+  title.textContent = category || 'Другие товары';
+  const row = document.createElement('div');
+  row.className = 'product-row';
+  const fragment = document.createDocumentFragment();
+  products.forEach(product => fragment.appendChild(createProductCard(product)));
+  if (categoryUrl) {
+    const more = document.createElement('a');
+    more.className = 'product-group__more';
+    more.href = categoryUrl;
+    more.target = '_blank';
+    more.rel = 'noopener noreferrer';
+    more.setAttribute('aria-label', `Смотреть все товары категории «${category}»`);
+    const moreIcon = document.createElement('span');
+    moreIcon.className = 'product-group__more-icon';
+    moreIcon.setAttribute('aria-hidden', 'true');
+    moreIcon.textContent = '→';
+    const moreLabel = document.createElement('span');
+    moreLabel.className = 'product-group__more-label';
+    moreLabel.textContent = 'Смотреть все';
+    more.append(moreIcon, moreLabel);
+    fragment.appendChild(more);
+  }
+  row.appendChild(fragment);
+  section.append(title, row);
+  return section;
+}
+
+function createProductComparison(items) {
+  const visibleItems = (Array.isArray(items) ? items : []).slice(0, 3);
+  const section = document.createElement('section');
+  section.className = 'product-comparison';
+  const title = document.createElement('div');
+  title.className = 'product-comparison__title';
+  title.textContent = 'Сравнение товаров';
+  const scroll = document.createElement('div');
+  scroll.className = 'product-comparison__scroll';
+  const table = document.createElement('table');
+  table.className = 'product-comparison__table';
+  const head = document.createElement('thead');
+  const headRow = document.createElement('tr');
+  visibleItems.forEach(item => {
+    const product = item.product || {};
+    const productCell = document.createElement('th');
+    productCell.scope = 'col';
+    const brand = document.createElement('div');
+    brand.className = 'comparison-table__brand';
+    brand.textContent = product.brand || 'Вариант';
+    const name = document.createElement(product.url ? 'a' : 'div');
+    name.className = 'comparison-table__name';
+    name.textContent = product.name || 'Товар из каталога';
+    if (product.url) { name.href = product.url; name.target = '_blank'; name.rel = 'noopener noreferrer'; }
+    productCell.append(brand, name);
+    headRow.appendChild(productCell);
+  });
+  head.appendChild(headRow);
+  const body = document.createElement('tbody');
+  const priceRow = document.createElement('tr');
+  const summaryRow = document.createElement('tr');
+  visibleItems.forEach(item => {
+    const product = item.product || {};
+    const priceCell = document.createElement('td');
+    const price = document.createElement('div');
+    price.className = 'comparison-table__price';
+    price.textContent = formatPrice(product.price);
+    priceCell.appendChild(price);
+    const summaryCell = document.createElement('td');
+    const summary = document.createElement('div');
+    summary.className = 'comparison-table__summary';
+    summary.textContent = item.summary || '—';
+    summaryCell.appendChild(summary);
+    priceRow.appendChild(priceCell);
+    summaryRow.appendChild(summaryCell);
+  });
+  body.append(priceRow, summaryRow);
+  table.append(head, body);
+  scroll.appendChild(table);
+  section.append(title, scroll);
+  return section;
+}
+
+function createComparisonAnalysis(value) {
+  const section = document.createElement('section');
+  section.className = 'comparison-analysis';
+  const label = document.createElement('strong');
+  label.className = 'comparison-analysis__label';
+  label.textContent = 'Короткий вывод';
+  const text = document.createElement('div');
+  text.className = 'comparison-analysis__text';
+  text.textContent = value;
+  section.append(label, text);
+  return section;
+}
+
+function addBotResponse(data) {
+  const response = document.createElement('div');
+  response.className = 'msg bot rich-response';
+  const content = Array.isArray(data.content) && data.content.length
+    ? data.content
+    : [{type: 'text', text: data.reply || ''}, ...productGroupBlocks(data.products)];
+  content.forEach(block => {
+    if (block.type === 'text' && block.text) {
+      const text = document.createElement('div');
+      text.className = 'bot-response__text';
+      text.textContent = block.text;
+      response.appendChild(text);
+    } else if (block.type === 'product_group' && Array.isArray(block.products)) {
+      response.appendChild(createProductGroup(block.category, block.products, block.category_url));
+    } else if (block.type === 'comparison' && Array.isArray(block.items) && block.items.length >= 2) {
+      response.appendChild(createProductComparison(block.items));
+    } else if (block.type === 'comparison_analysis' && block.text) {
+      response.appendChild(createComparisonAnalysis(block.text));
+    } else if (block.type === 'product' && block.product) {
+      response.appendChild(createProductGroup(block.product.category, [block.product], block.product.category_url));
+    }
+  });
+  appendChatNode(response);
+  scrollMessagesToBottom();
+  return response;
+}
+
+function parseSseEvent(block) {
+  let event = 'message';
+  const dataLines = [];
+  block.split('\n').forEach(line => {
+    if (line.startsWith('event:')) event = line.slice(6).trim();
+    else if (line.startsWith('data:')) dataLines.push(line.slice(5).trimStart());
+  });
+  if (!dataLines.length) return null;
+  return { event, data: JSON.parse(dataLines.join('\n')) };
+}
+
+function visibleStreamingText(value) {
+  let clean = value
+    .replace(/\[id\s*:\s*\d+\]/gi, '')
+    .replace(/\[compare\s*:\s*\d+\s*\|\s*[^\]\r\n]*\]/gi, '')
+    .replace(/\[compare_result\s*:\s*[^\]\r\n]*\]/gi, '');
+  const lastOpen = clean.lastIndexOf('[');
+  const lastClose = clean.lastIndexOf(']');
+  if (lastOpen > lastClose) clean = clean.slice(0, lastOpen);
+  return clean.trim();
+}
+
+async function streamChat(messages, onDelta) {
+  const resp = await fetch('/api/chat/stream', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages }),
+  });
+  if (!resp.ok) {
+    let error = `HTTP ${resp.status}`;
+    try { error = (await resp.json()).error || error; } catch (_ignored) {}
+    throw new Error(error);
+  }
+  if (!resp.body) throw new Error('Браузер не поддерживает потоковые ответы.');
+
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  let finalData = null;
+  while (true) {
+    const { value, done } = await reader.read();
+    buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
+    buffer = buffer.replace(/\r\n/g, '\n');
+    let boundary;
+    while ((boundary = buffer.indexOf('\n\n')) >= 0) {
+      const block = buffer.slice(0, boundary);
+      buffer = buffer.slice(boundary + 2);
+      if (!block.trim()) continue;
+      const message = parseSseEvent(block);
+      if (!message) continue;
+      if (message.event === 'delta') onDelta(message.data.text || '');
+      else if (message.event === 'final') finalData = message.data;
+      else if (message.event === 'error') throw new Error(message.data.error || 'Ошибка потока');
+    }
+    if (done) break;
+  }
+  if (!finalData) throw new Error('Поток завершился без итогового ответа.');
+  return finalData;
+}
+
+async function send(text) {
+  text = (text || '').trim();
+  if (!text) return;
+  if (text.length > MAX_USER_MESSAGE_CHARS) {
+    addBubble(`Сообщение должно быть не длиннее ${MAX_USER_MESSAGE_CHARS} символов.`, 'bot', 'error');
+    inputEl.focus();
+    return;
+  }
+  addBubble(text, 'user');
+  history.push({ role: 'user', text: text });
+  inputEl.value = '';
+  sendBtn.disabled = true;
+
+  const pending = addBubble('печатает ответ...', 'bot', 'pending');
+
+  try {
+    let streamedText = '';
+    const data = await streamChat(history, delta => {
+      streamedText += delta;
+      const visibleText = visibleStreamingText(streamedText);
+      if (!visibleText) return;
+      pending.classList.remove('pending');
+      pending.textContent = visibleText;
+      scrollMessagesToBottom();
+    });
+    pending.remove();
+    addBotResponse(data);
+    history.push({ role: 'assistant', text: data.reply });
+  } catch (e) {
+    pending.remove();
+    addBubble('Не удалось связаться с сервером: ' + e, 'bot', 'error');
+  } finally {
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+}
+
+sendBtn.addEventListener('click', () => send(inputEl.value));
+inputEl.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    send(inputEl.value);
+  }
+});
+document.querySelectorAll('.suggestions button').forEach(btn => {
+  btn.addEventListener('click', () => send(btn.dataset.q));
+});
+syncCartButtons();
+inputEl.focus();
+</script>
+</body>
+</html>

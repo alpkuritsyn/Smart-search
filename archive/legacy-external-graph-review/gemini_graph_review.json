@@ -1,0 +1,6 @@
+{
+  "cases_version": "graph-tests-v1.1",
+  "status": "NOT_RUN",
+  "reason": "GEMINI_API_KEY is missing; offline checks must use --offline and cannot be labelled Gemini review",
+  "results": []
+}

@@ -1,0 +1,114 @@
+{
+  "review_contract_version": "antigravity-graph-review-v1",
+  "review_type": "independent-semantic-graph-review",
+  "source_request_sha256": "bcf0bf4a1ea6c79eb0844cc265eb10618731eff184ab669770fdb3cafe9ab5fc",
+  "decision_scope": "findings_only",
+  "reviewer": {
+    "agent_definition": "agents/08_graph_semantic_reviewer.md",
+    "execution_context": "separate-antigravity-subagent",
+    "independent_from_graph_author": true,
+    "is_graph_author": false,
+    "external_provider_used": false
+  },
+  "status": "PASS",
+  "results": [
+    {
+      "case_id": "paint-core-complements",
+      "verdict": "PASS",
+      "summary": "Все четыре категорийные связи краска -> грунтовка (PREPARE_WITH), шпатлевка (LEVEL_WITH), кисть (APPLY_WITH), валик (APPLY_WITH) направлены корректно и не вызывают бренд-утечек.",
+      "evidence": [
+        {
+          "source": "review_request.cases[paint-core-complements].neighborhood.edges",
+          "claim": "type:paint PREPARE_WITH type:primer, LEVEL_WITH type:putty, APPLY_WITH type:brush/roller присутствуют; рационалы строго условны и ограничены уровнем категорий."
+        }
+      ],
+      "missing_evidence": [],
+      "risky_claims": [],
+      "required_changes": []
+    },
+    {
+      "case_id": "primer-outgoing",
+      "verdict": "PASS",
+      "summary": "Исходящие связи грунтовка -> кисть (APPLY_WITH) и валик (APPLY_WITH) корректны.",
+      "evidence": [
+        {
+          "source": "review_request.cases[primer-outgoing].neighborhood.edges",
+          "claim": "type:primer APPLY_WITH type:brush и type:roller валидны и логически обоснованы."
+        }
+      ],
+      "missing_evidence": [],
+      "risky_claims": [],
+      "required_changes": []
+    },
+    {
+      "case_id": "varnish-outgoing",
+      "verdict": "PASS",
+      "summary": "Исходящие связи лак -> грунтовка (PREPARE_WITH) и кисть (APPLY_WITH) верны.",
+      "evidence": [
+        {
+          "source": "review_request.cases[varnish-outgoing].neighborhood.edges",
+          "claim": "type:varnish PREPARE_WITH type:primer и APPLY_WITH type:brush содержат точные условные рационалы."
+        }
+      ],
+      "missing_evidence": [],
+      "risky_claims": [],
+      "required_changes": []
+    },
+    {
+      "case_id": "putty-outgoing",
+      "verdict": "PASS",
+      "summary": "Связь шпатлевка -> грунтовка (PREPARE_WITH) семантически верна.",
+      "evidence": [
+        {
+          "source": "review_request.cases[putty-outgoing].neighborhood.edges",
+          "claim": "type:putty PREPARE_WITH type:primer валидна."
+        }
+      ],
+      "missing_evidence": [],
+      "risky_claims": [],
+      "required_changes": []
+    },
+    {
+      "case_id": "tools-outgoing",
+      "verdict": "PASS",
+      "summary": "Связи кисть -> краска (USE_WITH) и валик -> краска (USE_WITH) корректно отражают использование инструмента с материалом.",
+      "evidence": [
+        {
+          "source": "review_request.cases[tools-outgoing].neighborhood.edges",
+          "claim": "Инструменты используют отношение USE_WITH к материалам нанесения."
+        }
+      ],
+      "missing_evidence": [],
+      "risky_claims": [],
+      "required_changes": []
+    },
+    {
+      "case_id": "mixes-outgoing",
+      "verdict": "PASS",
+      "summary": "Связи штукатурка -> грунтовка/шпатлевка и плиточный клей -> грунтовка корректны.",
+      "evidence": [
+        {
+          "source": "review_request.cases[mixes-outgoing].neighborhood.edges",
+          "claim": "Отражены системные связи подготовки и выравнивания строительных смесей."
+        }
+      ],
+      "missing_evidence": [],
+      "risky_claims": [],
+      "required_changes": []
+    },
+    {
+      "case_id": "no-brand-propagation",
+      "verdict": "PASS",
+      "summary": "Бренды не навязываются комплементам: фильтрация комплементов работает на уровне категорий.",
+      "evidence": [
+        {
+          "source": "review_request.cases[no-brand-propagation].deterministic_check",
+          "claim": "Отсутствуют запрещенные узлы и ребра с принудительной фильтрацией по бренду."
+        }
+      ],
+      "missing_evidence": [],
+      "risky_claims": [],
+      "required_changes": []
+    }
+  ]
+}

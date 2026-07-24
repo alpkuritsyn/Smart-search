@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Умный поиск V1 — демонстрация</title>
+  <meta name="description" content="Визуализация детерминированного поиска и комплементарных товарных категорий.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <div class="eyebrow">Smart-search · V1</div>
+      <h1>Поиск, который понимает товар — и показывает, что пригодится рядом</h1>
+      <p>Демо визуализирует детерминированный алгоритм поиска и категориальный граф комплементов.</p>
+    </header>
+
+    <section class="search-panel" aria-labelledby="search-heading">
+      <div class="panel-heading">
+        <div>
+          <h2 id="search-heading">Проверить запрос</h2>
+          <p>Попробуйте контрольные запросы V1 или проверьте legacy fallback.</p>
+        </div>
+        <label class="mode-control">
+          <span>Источник</span>
+          <select id="mode-select" aria-label="Источник данных">
+            <option value="api" selected>Backend API</option>
+            <option value="mock">Демо-данные (Fixtures)</option>
+          </select>
+        </label>
+      </div>
+
+      <form id="search-form" class="search-form">
+        <label class="sr-only" for="query-input">Поисковый запрос</label>
+        <input id="query-input" name="query" value="краска тикурила" autocomplete="off" required>
+        <button type="submit">Найти</button>
+      </form>
+
+      <div class="examples" aria-label="Примеры запросов">
+        <button type="button" data-query="краска тикурила">краска тикурила</button>
+        <button type="button" data-query="краска tikkurila">краска tikkurila</button>
+        <button type="button" data-query="грунтовка dulux">грунтовка dulux</button>
+        <button type="button" data-query="лак для дерева">лак для дерева</button>
+        <button type="button" data-query="шпаклевка 20 кг">шпаклевка 20 кг</button>
+        <button type="button" data-query="сложная гидроизоляция для подвала">legacy fallback</button>
+      </div>
+    </section>
+
+    <section id="status-panel" class="status-panel" aria-live="polite" hidden></section>
+    <section id="message-panel" class="message-panel" aria-live="polite" hidden></section>
+    <section id="results" class="results" aria-live="polite"></section>
+
+    <details id="debug-panel" class="debug-panel" hidden>
+      <summary>Технические детали ответа (Debug Metadata)</summary>
+      <pre id="debug-json"></pre>
+    </details>
+  </main>
+
+  <template id="product-card-template">
+    <article class="product-card">
+      <div class="product-media" aria-hidden="true"><span></span></div>
+      <div class="product-price"></div>
+      <h3 class="product-name"></h3>
+      <div class="product-meta"></div>
+      <a class="product-link" target="_blank" rel="noopener noreferrer">Открыть товар</a>
+    </article>
+  </template>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://smart-search.local/contracts/search-response-v1.schema.json",
+  "title": "Smart-search V1 response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["query", "primary", "complements", "meta"],
+  "properties": {
+    "query": {
+      "type": "object",
+      "required": ["raw", "normalized", "attributes", "unparsed_tokens"],
+      "properties": {
+        "raw": {"type": "string"},
+        "normalized": {"type": "string"},
+        "brand_id": {"type": ["string", "null"]},
+        "brand_display": {"type": ["string", "null"]},
+        "product_type_id": {"type": ["string", "null"]},
+        "product_type_display": {"type": ["string", "null"]},
+        "product_id": {"type": ["integer", "string", "null"]},
+        "product_display": {"type": ["string", "null"]},
+        "attributes": {"type": "object"},
+        "unparsed_tokens": {"type": "array", "items": {"type": "string"}},
+        "entity_resolution": {
+          "anyOf": [
+            {"$ref": "entity_resolution.schema.json"},
+            {"type": "null"}
+          ]
+        },
+        "entity_resolutions": {
+          "type": "array",
+          "items": {"$ref": "entity_resolution.schema.json"}
+        }
+      }
+    },
+    "primary": {"$ref": "#/$defs/productGroup"},
+    "complements": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {"$ref": "#/$defs/productGroup"},
+          {
+            "type": "object",
+            "required": ["relation", "rationale", "data_gap"],
+            "properties": {
+              "relation": {"enum": ["PREPARE_WITH", "LEVEL_WITH", "APPLY_WITH", "PROTECT_WITH"]},
+              "rationale": {"type": "string", "minLength": 1},
+              "data_gap": {"type": "boolean"},
+              "data_gap_message": {"type": "string"}
+            }
+          }
+        ]
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": ["strategy", "fallback_used", "catalog_version", "aliases_version", "graph_version"],
+      "properties": {
+        "strategy": {"enum": ["deterministic_v1", "legacy_fallback"]},
+        "fallback_used": {"type": "boolean"},
+        "catalog_version": {"type": "string"},
+        "aliases_version": {"type": "string"},
+        "graph_version": {"type": "string"},
+        "elapsed_ms": {"type": "number", "minimum": 0}
+      }
+    }
+  },
+  "$defs": {
+    "product": {
+      "type": "object",
+      "required": ["id", "name", "brand", "price", "category", "subcategory"],
+      "properties": {
+        "id": {"type": ["integer", "string"]},
+        "name": {"type": "string", "minLength": 1},
+        "brand": {"type": "string"},
+        "price": {"type": ["number", "null"]},
+        "category": {"type": "string"},
+        "subcategory": {"type": "string"},
+        "url": {"type": "string"},
+        "image": {"type": "string"}
+      }
+    },
+    "productGroup": {
+      "type": "object",
+      "required": ["title", "products"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "products": {"type": "array", "items": {"$ref": "#/$defs/product"}}
+      }
+    }
+  }
+}

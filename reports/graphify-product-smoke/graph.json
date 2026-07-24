@@ -1,0 +1,235 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "Paint",
+      "file_type": "concept",
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "paint",
+      "community": 1,
+      "norm_label": "paint"
+    },
+    {
+      "label": "Primer",
+      "file_type": "concept",
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "primer",
+      "community": 0,
+      "norm_label": "primer"
+    },
+    {
+      "label": "Putty",
+      "file_type": "concept",
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "putty",
+      "community": 2,
+      "norm_label": "putty"
+    },
+    {
+      "label": "Varnish",
+      "file_type": "concept",
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "varnish",
+      "community": 0,
+      "norm_label": "varnish"
+    },
+    {
+      "label": "Brush",
+      "file_type": "concept",
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "brush",
+      "community": 0,
+      "norm_label": "brush"
+    },
+    {
+      "label": "Roller",
+      "file_type": "concept",
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "roller",
+      "community": 1,
+      "norm_label": "roller"
+    },
+    {
+      "label": "Plaster",
+      "file_type": "concept",
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "plaster",
+      "community": 2,
+      "norm_label": "plaster"
+    },
+    {
+      "label": "Tile Glue",
+      "file_type": "concept",
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "tile_glue",
+      "community": 0,
+      "norm_label": "tile glue"
+    }
+  ],
+  "links": [
+    {
+      "relation": "APPLY_WITH",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "paint",
+      "target": "brush"
+    },
+    {
+      "relation": "PREPARE_WITH",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "paint",
+      "target": "primer"
+    },
+    {
+      "relation": "LEVEL_WITH",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "paint",
+      "target": "putty"
+    },
+    {
+      "relation": "USE_WITH",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "roller",
+      "target": "paint"
+    },
+    {
+      "relation": "PREPARE_WITH",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "plaster",
+      "target": "primer"
+    },
+    {
+      "relation": "APPLY_WITH",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "primer",
+      "target": "brush"
+    },
+    {
+      "relation": "PREPARE_WITH",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "putty",
+      "target": "primer"
+    },
+    {
+      "relation": "USE_WITH",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "roller",
+      "target": "primer"
+    },
+    {
+      "relation": "PREPARE_WITH",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "tile_glue",
+      "target": "primer"
+    },
+    {
+      "relation": "PREPARE_WITH",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "varnish",
+      "target": "primer"
+    },
+    {
+      "relation": "FINISH_WITH",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "plaster",
+      "target": "putty"
+    },
+    {
+      "relation": "APPLY_WITH",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "approved_rules.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "varnish",
+      "target": "brush"
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "86bb5532089810ab878bb21bd6deacdc025ea027"
+}

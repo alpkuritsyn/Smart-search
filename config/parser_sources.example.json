@@ -1,0 +1,28 @@
+{
+  "version": "parser-sources-v1-example",
+  "policy": {
+    "respect_robots_txt": true,
+    "bypass_authentication": false,
+    "bypass_captcha": false,
+    "default_requests_per_second": 0.5,
+    "user_agent": "SmartSearchCatalogAudit/1.0"
+  },
+  "sources": [
+    {
+      "source_id": "source:remplanika-public-catalog",
+      "base_url": "https://remplanika.ru/",
+      "enabled": false,
+      "authorization_status": "pending_lead_review",
+      "catalog_scope": "full_catalog",
+      "allowed_paths": ["/catalog/"],
+      "priority_categories": ["весь публичный товарный каталог"],
+      "discovery": {
+        "sitemap_urls": ["https://remplanika.ru/sitemap_iblock_7.xml"],
+        "seed_urls": [],
+        "leaf_only": true,
+        "product_slug_regex": null
+      },
+      "notes": "Включить только после проверки robots/terms и утверждения source manifest."
+    }
+  ]
+}
