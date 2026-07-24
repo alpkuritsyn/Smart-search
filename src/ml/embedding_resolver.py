@@ -68,12 +68,25 @@ def _dot(left: list[float], right: list[float]) -> float:
     return sum(a * b for a, b in zip(left, right))
 
 
+_FILE_HASH_CACHE: dict[str, tuple[float, str]] = {}
+
 def _sha256(path: Path) -> str:
+    path_str = str(path.resolve())
+    try:
+        mtime = path.stat().st_mtime
+    except OSError:
+        mtime = 0.0
+    cached = _FILE_HASH_CACHE.get(path_str)
+    if cached is not None and cached[0] == mtime:
+        return cached[1]
+
     digest = hashlib.sha256()
     with path.open("rb") as handle:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
-    return digest.hexdigest()
+    result = digest.hexdigest()
+    _FILE_HASH_CACHE[path_str] = (mtime, result)
+    return result
 
 
 class OllamaEmbeddingClient:
