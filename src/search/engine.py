@@ -34,8 +34,8 @@ def entity_resolver_mode(explicit_mode=None):
 
 
 def entity_resolver_policy(explicit_policy=None):
-    policy = (explicit_policy or os.environ.get("SMART_SEARCH_ENTITY_RESOLVER_POLICY", "strict")).strip().lower()
-    return policy if policy in {"strict", "top1"} else "strict"
+    policy = (explicit_policy or os.environ.get("SMART_SEARCH_ENTITY_RESOLVER_POLICY", "top1")).strip().lower()
+    return policy if policy in {"strict", "top1"} else "top1"
 
 
 def entity_index_path():
