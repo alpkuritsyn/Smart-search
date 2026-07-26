@@ -115,11 +115,14 @@ def run_server(host=HOST, port=PORT):
     server_address = (host, port)
     httpd = ThreadingHTTPServer(server_address, SmartSearchHandler)
     print(f"Smart-search V1 Backend Server running at http://{host}:{port}/")
-    try:
-        from src.search.engine import warmup
-        warmup()
-    except Exception as e:
-        print(f"Warmup warning: {e}")
+    def _background_warmup():
+        try:
+            from src.search.engine import warmup
+            warmup()
+        except Exception as e:
+            print(f"Warmup warning: {e}")
+    import threading
+    threading.Thread(target=_background_warmup, daemon=True).start()
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
