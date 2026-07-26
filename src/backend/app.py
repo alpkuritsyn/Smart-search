@@ -112,14 +112,14 @@ class SmartSearchHandler(BaseHTTPRequestHandler):
             self.send_error(404, "File Not Found")
 
 def run_server(host=HOST, port=PORT):
+    server_address = (host, port)
+    httpd = ThreadingHTTPServer(server_address, SmartSearchHandler)
+    print(f"Smart-search V1 Backend Server running at http://{host}:{port}/")
     try:
         from src.search.engine import warmup
         warmup()
     except Exception as e:
         print(f"Warmup warning: {e}")
-    server_address = (host, port)
-    httpd = ThreadingHTTPServer(server_address, SmartSearchHandler)
-    print(f"Smart-search V1 Backend Server running at http://{host}:{port}/")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
