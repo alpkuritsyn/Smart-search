@@ -8,6 +8,7 @@ import hashlib
 import math
 import os
 import re
+import copy
 import sqlite3
 import unicodedata
 import urllib.error
@@ -153,6 +154,7 @@ class EmbeddingEntityResolver:
             keep_alive_val,
         )
         self._embedding_cache: dict[str, list[float]] = {}
+        self._resolve_cache: dict[tuple, dict] = {}
         self._embedding_cache_lock = threading.Lock()
 
     def _embed_once(self, normalized: str) -> list[float]:
@@ -194,6 +196,12 @@ class EmbeddingEntityResolver:
         normalized = normalize_entity_text(text)
         if not normalized:
             return self._unavailable(text, entity_type, "empty_span")
+
+        cache_key = (normalized, entity_type, top_k)
+        with self._embedding_cache_lock:
+            cached_res = self._resolve_cache.get(cache_key)
+        if cached_res is not None:
+            return copy.deepcopy(cached_res)
 
         try:
             with closing(sqlite3.connect(self.index_path)) as connection:
@@ -316,7 +324,7 @@ class EmbeddingEntityResolver:
             {key: value for key, value in candidate.items() if key != "trusted"}
             for candidate in ranked[:top_k]
         ]
-        return {
+        res = {
             "status": status,
             "entity_type": entity_type,
             "matched_text": text,
@@ -329,3 +337,8 @@ class EmbeddingEntityResolver:
             "model": self.config.get("model"),
             "index_version": metadata.get("index_version"),
         }
+        with self._embedding_cache_lock:
+            if len(self._resolve_cache) >= 4096:
+                self._resolve_cache.clear()
+            self._resolve_cache[cache_key] = copy.deepcopy(res)
+        return res

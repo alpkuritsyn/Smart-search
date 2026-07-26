@@ -70,6 +70,15 @@ def get_entity_resolver():
         return resolver
 
 
+def warmup() -> None:
+    """Pre-warm catalog, entity resolver, and common token caches on startup."""
+    load_canonical_catalog()
+    resolver = get_entity_resolver()
+    if resolver and entity_resolver_mode() != "off":
+        for sample_phrase in ["краска", "грунтовка", "брус", "лак", "шпатлевка"]:
+            resolver.resolve(sample_phrase, "product_type")
+
+
 def get_entity_resolver_health():
     mode = entity_resolver_mode()
     index_path = entity_index_path()
