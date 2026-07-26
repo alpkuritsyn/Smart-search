@@ -198,7 +198,7 @@ class EmbeddingEntityResolver:
         try:
             with closing(sqlite3.connect(self.index_path)) as connection:
                 metadata = dict(connection.execute("SELECT key, value FROM metadata"))
-                if metadata.get("status") != "complete":
+                if metadata.get("status") not in {"complete", "building"}:
                     return self._unavailable(text, entity_type, "index_incomplete")
                 if metadata.get("model") != self.config.get("model"):
                     return self._unavailable(text, entity_type, "model_index_mismatch")

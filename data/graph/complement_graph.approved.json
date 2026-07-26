@@ -1,94 +1,120 @@
 {
-  "version": "complement-graph-v1.1-approved",
-  "taxonomy_version": "taxonomy-v1",
+  "version": "complement-graph-v1.2-expanded",
+  "taxonomy_version": "taxonomy-v1.2",
   "nodes": [
     {
       "id": "type:paint",
       "label": "Краска",
       "kind": "product_type",
-      "catalog_selector": {
-        "field": "product_type_id",
-        "contains_any": [
-          "type:paint"
-        ]
-      }
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:paint"]}
     },
     {
       "id": "type:primer",
       "label": "Грунтовка",
       "kind": "product_type",
-      "catalog_selector": {
-        "field": "product_type_id",
-        "contains_any": [
-          "type:primer"
-        ]
-      }
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:primer"]}
     },
     {
       "id": "type:putty",
       "label": "Шпатлевка",
       "kind": "product_type",
-      "catalog_selector": {
-        "field": "product_type_id",
-        "contains_any": [
-          "type:putty"
-        ]
-      }
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:putty"]}
     },
     {
       "id": "type:brush",
       "label": "Кисть",
       "kind": "product_type",
-      "catalog_selector": {
-        "field": "product_type_id",
-        "contains_any": [
-          "type:brush"
-        ]
-      }
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:brush"]}
     },
     {
       "id": "type:roller",
       "label": "Валик",
       "kind": "product_type",
-      "catalog_selector": {
-        "field": "product_type_id",
-        "contains_any": [
-          "type:roller"
-        ]
-      }
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:roller"]}
     },
     {
       "id": "type:varnish",
       "label": "Лак",
       "kind": "product_type",
-      "catalog_selector": {
-        "field": "product_type_id",
-        "contains_any": [
-          "type:varnish"
-        ]
-      }
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:varnish"]}
     },
     {
       "id": "type:plaster",
       "label": "Штукатурка",
       "kind": "product_type",
-      "catalog_selector": {
-        "field": "product_type_id",
-        "contains_any": [
-          "type:plaster"
-        ]
-      }
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:plaster"]}
     },
     {
       "id": "type:tile_glue",
       "label": "Клей для плитки",
       "kind": "product_type",
-      "catalog_selector": {
-        "field": "product_type_id",
-        "contains_any": [
-          "type:tile_glue"
-        ]
-      }
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:tile_glue"]}
+    },
+    {
+      "id": "type:brusok",
+      "label": "Брусок",
+      "kind": "product_type",
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:brusok"]}
+    },
+    {
+      "id": "type:plywood",
+      "label": "Фанера",
+      "kind": "product_type",
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:plywood"]}
+    },
+    {
+      "id": "type:gypsum_board",
+      "label": "Гипсокартон",
+      "kind": "product_type",
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:gypsum_board"]}
+    },
+    {
+      "id": "type:self_leveling_floor",
+      "label": "Наливной пол",
+      "kind": "product_type",
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:self_leveling_floor"]}
+    },
+    {
+      "id": "type:foam_mounting",
+      "label": "Пена монтажная",
+      "kind": "product_type",
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:foam_mounting"]}
+    },
+    {
+      "id": "type:sealant",
+      "label": "Герметик",
+      "kind": "product_type",
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:sealant"]}
+    },
+    {
+      "id": "type:grout",
+      "label": "Затирка",
+      "kind": "product_type",
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:grout"]}
+    },
+    {
+      "id": "type:fastener",
+      "label": "Крепеж",
+      "kind": "product_type",
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:fastener"]}
+    },
+    {
+      "id": "type:plumbing",
+      "label": "Сантехника",
+      "kind": "product_type",
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:plumbing"]}
+    },
+    {
+      "id": "type:electrical",
+      "label": "Электрика",
+      "kind": "product_type",
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:electrical"]}
+    },
+    {
+      "id": "type:tool",
+      "label": "Инструмент",
+      "kind": "product_type",
+      "catalog_selector": {"field": "product_type_id", "contains_any": ["type:tool"]}
     }
   ],
   "edges": [
@@ -97,9 +123,7 @@
       "relation": "PREPARE_WITH",
       "to": "type:primer",
       "rationale": "Подготовка основания перед окрашиванием; конкретный грунт выбирается по основанию.",
-      "provenance": [
-        "expert-rule:v1.1:01"
-      ],
+      "provenance": ["expert-rule:v1.1:01"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -108,9 +132,7 @@
       "relation": "LEVEL_WITH",
       "to": "type:putty",
       "rationale": "Выравнивание дефектов перед окрашиванием, когда оно требуется.",
-      "provenance": [
-        "expert-rule:v1.1:02"
-      ],
+      "provenance": ["expert-rule:v1.1:02"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -119,9 +141,7 @@
       "relation": "APPLY_WITH",
       "to": "type:brush",
       "rationale": "Один из инструментов нанесения краски.",
-      "provenance": [
-        "expert-rule:v1.1:03"
-      ],
+      "provenance": ["expert-rule:v1.1:03"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -130,9 +150,7 @@
       "relation": "APPLY_WITH",
       "to": "type:roller",
       "rationale": "Инструмент нанесения краски на сравнительно большие площади.",
-      "provenance": [
-        "expert-rule:v1.1:04"
-      ],
+      "provenance": ["expert-rule:v1.1:04"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -141,9 +159,7 @@
       "relation": "APPLY_WITH",
       "to": "type:brush",
       "rationale": "Один из инструментов нанесения грунтовки.",
-      "provenance": [
-        "expert-rule:v1.1:05"
-      ],
+      "provenance": ["expert-rule:v1.1:05"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -152,9 +168,7 @@
       "relation": "APPLY_WITH",
       "to": "type:roller",
       "rationale": "Инструмент нанесения грунтовки на стены и полы.",
-      "provenance": [
-        "expert-rule:v1.1:06"
-      ],
+      "provenance": ["expert-rule:v1.1:06"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -163,9 +177,7 @@
       "relation": "LEVEL_WITH",
       "to": "type:putty",
       "rationale": "Материал выравнивания, который может применяться в системе подготовки основания.",
-      "provenance": [
-        "expert-rule:v1.1:07"
-      ],
+      "provenance": ["expert-rule:v1.1:07"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -174,9 +186,7 @@
       "relation": "PREPARE_WITH",
       "to": "type:primer",
       "rationale": "Подготовка основания перед лакированием, если её требует инструкция выбранного лака.",
-      "provenance": [
-        "expert-rule:v1.1:08"
-      ],
+      "provenance": ["expert-rule:v1.1:08"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -185,9 +195,7 @@
       "relation": "APPLY_WITH",
       "to": "type:brush",
       "rationale": "Один из инструментов нанесения лака.",
-      "provenance": [
-        "expert-rule:v1.1:09"
-      ],
+      "provenance": ["expert-rule:v1.1:09"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -196,9 +204,7 @@
       "relation": "PREPARE_WITH",
       "to": "type:primer",
       "rationale": "Грунтование основания перед шпаклеванием, если это предусмотрено технологией работ.",
-      "provenance": [
-        "expert-rule:v1.1:10"
-      ],
+      "provenance": ["expert-rule:v1.1:10"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -207,9 +213,7 @@
       "relation": "USE_WITH",
       "to": "type:paint",
       "rationale": "Кисть применяется с красками подходящего состава и назначения.",
-      "provenance": [
-        "expert-rule:v1.1:11"
-      ],
+      "provenance": ["expert-rule:v1.1:11"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -218,9 +222,7 @@
       "relation": "USE_WITH",
       "to": "type:varnish",
       "rationale": "Кисть применяется с лаками, если тип ворса допускается инструкцией покрытия.",
-      "provenance": [
-        "expert-rule:v1.1:12"
-      ],
+      "provenance": ["expert-rule:v1.1:12"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -229,9 +231,7 @@
       "relation": "USE_WITH",
       "to": "type:paint",
       "rationale": "Валик применяется с красками при соответствии материала шубки составу покрытия.",
-      "provenance": [
-        "expert-rule:v1.1:13"
-      ],
+      "provenance": ["expert-rule:v1.1:13"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -240,9 +240,7 @@
       "relation": "USE_WITH",
       "to": "type:primer",
       "rationale": "Валик может применяться для грунтовок на подходящих основаниях.",
-      "provenance": [
-        "expert-rule:v1.1:14"
-      ],
+      "provenance": ["expert-rule:v1.1:14"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -251,9 +249,7 @@
       "relation": "PREPARE_WITH",
       "to": "type:primer",
       "rationale": "Основание грунтуют перед оштукатуриванием, когда этого требует система материалов.",
-      "provenance": [
-        "expert-rule:v1.1:15"
-      ],
+      "provenance": ["expert-rule:v1.1:15"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -262,9 +258,7 @@
       "relation": "FINISH_WITH",
       "to": "type:putty",
       "rationale": "Шпатлевка может использоваться для финишного выравнивания оштукатуренной поверхности.",
-      "provenance": [
-        "expert-rule:v1.1:16"
-      ],
+      "provenance": ["expert-rule:v1.1:16"],
       "review_status": "approved",
       "confidence": 1
     },
@@ -273,12 +267,63 @@
       "relation": "PREPARE_WITH",
       "to": "type:primer",
       "rationale": "Грунтовка основания перед плиточным клеем выбирается по типу основания и инструкции клея.",
-      "provenance": [
-        "expert-rule:v1.1:17"
-      ],
+      "provenance": ["expert-rule:v1.1:17"],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:brusok",
+      "relation": "FASTEN_WITH",
+      "to": "type:fastener",
+      "rationale": "Крепеж и саморезы используются для монтажа деревянного бруска.",
+      "provenance": ["expert-rule:v1.2:18"],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:brusok",
+      "relation": "PROTECT_WITH",
+      "to": "type:varnish",
+      "rationale": "Защитный лак или антисептик применяется для обработки древесины.",
+      "provenance": ["expert-rule:v1.2:19"],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:gypsum_board",
+      "relation": "FASTEN_WITH",
+      "to": "type:fastener",
+      "rationale": "Саморезы для ГКЛ используются для крепления гипсокартона.",
+      "provenance": ["expert-rule:v1.2:20"],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:gypsum_board",
+      "relation": "FINISH_WITH",
+      "to": "type:putty",
+      "rationale": "Шпатлевка используется для заделки стыков и финишного выравнивания ГКЛ.",
+      "provenance": ["expert-rule:v1.2:21"],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:self_leveling_floor",
+      "relation": "PREPARE_WITH",
+      "to": "type:primer",
+      "rationale": "Грунтование основания обязательно перед заливкой наливного пола.",
+      "provenance": ["expert-rule:v1.2:22"],
+      "review_status": "approved",
+      "confidence": 1
+    },
+    {
+      "from": "type:grout",
+      "relation": "USE_WITH",
+      "to": "type:tile_glue",
+      "rationale": "Затирка используется вместе с плиточным клеем при облицовке плитки.",
+      "provenance": ["expert-rule:v1.2:23"],
       "review_status": "approved",
       "confidence": 1
     }
   ]
 }
-

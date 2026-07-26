@@ -128,9 +128,8 @@ def prepare_database(path: Path, expected: dict[str, str]) -> sqlite3.Connection
     existing = dict(connection.execute("SELECT key, value FROM metadata"))
     identity_keys = {"model", "catalog_sha256", "aliases_sha256", "config_sha256"}
     if existing and any(existing.get(key) != expected[key] for key in identity_keys):
-        connection.close()
-        path.unlink()
-        connection = sqlite3.connect(path)
+        connection.execute("DROP TABLE IF EXISTS entity_phrases")
+        connection.execute("DROP TABLE IF EXISTS metadata")
         connection.execute("CREATE TABLE metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL)")
         connection.execute(
             """
@@ -209,7 +208,16 @@ def main() -> int:
     done = len(existing)
     for offset in range(0, len(pending), batch_size):
         batch = pending[offset : offset + batch_size]
-        vectors = client.embed([row[3] for row in batch])
+        vectors = None
+        for attempt in range(3):
+            try:
+                vectors = client.embed([row[3] for row in batch])
+                break
+            except Exception as exc:
+                if attempt == 2:
+                    raise
+                import time
+                time.sleep(2)
         if len(vectors) != len(batch):
             raise RuntimeError("Ollama returned a different number of vectors than inputs")
         for row, values in zip(batch, vectors):

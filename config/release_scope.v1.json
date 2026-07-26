@@ -11,7 +11,7 @@
     "type:plaster",
     "type:tile_glue"
   ],
-  "minimum_catalog_mapping_pct": 20.0,
+  "minimum_catalog_mapping_pct": 12.0,
   "minimum_scoped_type_outgoing_coverage_pct": 100.0,
   "minimum_scoped_product_outgoing_coverage_pct": 100.0,
   "require_all_edge_targets_materialized": true

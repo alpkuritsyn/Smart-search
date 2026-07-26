@@ -8,8 +8,12 @@ import argparse
 import sys
 from pathlib import Path
 
+import os
 BASE_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(BASE_DIR))
+
+os.environ["SMART_SEARCH_ENTITY_RESOLVER_MODE"] = "apply"
+os.environ["SMART_SEARCH_ENTITY_RESOLVER_POLICY"] = "top1"
 
 from src.backend.app import run_server
 

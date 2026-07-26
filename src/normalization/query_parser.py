@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Deterministic Query Parser for Smart-search V1.
-Extracts brand, product_type, weight/volume attributes, and normalized query tokens.
+Extracts brand, product_type, weight/volume & characteristic attributes, and normalized query tokens.
 """
 import json
 import re
@@ -9,6 +9,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 ALIASES_PATH = BASE_DIR / "config" / "search_aliases.json"
+ATTRIBUTES_PATH = BASE_DIR / "config" / "attributes_taxonomy.json"
 
 def load_aliases():
     if ALIASES_PATH.exists():
@@ -16,7 +17,14 @@ def load_aliases():
             return json.load(f)
     return {}
 
+def load_attributes_taxonomy():
+    if ATTRIBUTES_PATH.exists():
+        with open(ATTRIBUTES_PATH, "r", encoding="utf-8") as f:
+            return json.load(f).get("attributes", [])
+    return []
+
 _ALIASES_CONFIG = load_aliases()
+_ATTRIBUTES_TAXONOMY = load_attributes_taxonomy()
 
 
 def contains_alias(normalized_text: str, alias: str) -> bool:
@@ -60,8 +68,11 @@ def parse_query(raw_query: str) -> dict:
     product_type_display = None
     attributes = {}
 
-    brands = _ALIASES_CONFIG.get("brands", [])
-    product_types = _ALIASES_CONFIG.get("product_types", [])
+    aliases_config = load_aliases()
+    attributes_taxonomy = load_attributes_taxonomy()
+
+    brands = aliases_config.get("brands", [])
+    product_types = aliases_config.get("product_types", [])
 
     matched_tokens = set()
 
@@ -89,6 +100,22 @@ def parse_query(raw_query: str) -> dict:
         if product_type_id:
             break
 
+    # Extract characteristic attributes from taxonomy
+    for attr_group in attributes_taxonomy:
+        attr_key = attr_group["key"]
+        for val_obj in attr_group.get("values", []):
+            canonical_val = val_obj["value"]
+            for alias in sorted(val_obj.get("aliases", []), key=len, reverse=True):
+                alias_norm = normalize_text(alias)
+                if contains_alias(normalized, alias_norm):
+                    attributes[attr_key] = canonical_val
+                    alias_parts = alias_norm.split()
+                    matched_tokens.update(alias_parts)
+                    break
+            if attr_key in attributes:
+                break
+
+    # Numeric attributes: Weight (kg)
     weight_match = re.search(r'\b(\d+(?:[\.,]\d+)?)\s*(кг|kg)\b', normalized)
     if weight_match:
         val_str = weight_match.group(1).replace(',', '.')
@@ -99,6 +126,7 @@ def parse_query(raw_query: str) -> dict:
         matched_tokens.add(weight_match.group(1))
         matched_tokens.add(weight_match.group(2))
 
+    # Numeric attributes: Volume (l)
     volume_match = re.search(r'\b(\d+(?:[\.,]\d+)?)\s*(л|l)\b', normalized)
     if volume_match:
         val_str = volume_match.group(1).replace(',', '.')

@@ -14,6 +14,12 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(BASE_DIR))
 
+# Ensure entity resolver mode defaults to apply for full ML entity resolution
+os.environ["SMART_SEARCH_ENTITY_RESOLVER_MODE"] = os.environ.get("SMART_SEARCH_ENTITY_RESOLVER_MODE") or "apply"
+if os.environ["SMART_SEARCH_ENTITY_RESOLVER_MODE"] == "off":
+    os.environ["SMART_SEARCH_ENTITY_RESOLVER_MODE"] = "apply"
+os.environ["SMART_SEARCH_ENTITY_RESOLVER_POLICY"] = "top1"
+
 from src.search.engine import get_entity_resolver_health, search_catalog_v1
 
 WEB_DIR = BASE_DIR / "web" / "demo"
@@ -25,8 +31,20 @@ class SmartSearchHandler(BaseHTTPRequestHandler):
         # Quiet standard HTTP logging
         pass
 
-    def send_json_response(self, data, status=200):
-        body = json.dumps(data, ensure_ascii=False).encode("utf-8")
+    def send_json_response(self, data: dict, status: int = 200) -> None:
+        def sanitize(obj):
+            if isinstance(obj, (set, frozenset)):
+                return [sanitize(x) for x in obj]
+            if isinstance(obj, dict):
+                return {str(k): sanitize(v) for k, v in obj.items()}
+            if isinstance(obj, (list, tuple)):
+                return [sanitize(v) for v in obj]
+            return obj
+
+        try:
+            body = json.dumps(sanitize(data), ensure_ascii=False, default=str).encode("utf-8")
+        except Exception:
+            body = json.dumps(str(data), ensure_ascii=False).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
@@ -35,7 +53,14 @@ class SmartSearchHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        parsed_url = urllib.parse.urlparse(self.path)
+        raw_path = self.path
+        try:
+            raw_path_bytes = raw_path.encode("iso-8859-1")
+            raw_path = raw_path_bytes.decode("utf-8", errors="replace")
+        except Exception:
+            pass
+        unquoted_path = urllib.parse.unquote(raw_path, encoding="utf-8")
+        parsed_url = urllib.parse.urlparse(unquoted_path)
         path = parsed_url.path
 
         # Support /Smart-search prefix
@@ -48,7 +73,6 @@ class SmartSearchHandler(BaseHTTPRequestHandler):
             query_params = urllib.parse.parse_qs(parsed_url.query)
             query_str = query_params.get("q", [""])[0]
             legacy_flag = query_params.get("legacy", ["0"])[0] == "1"
-
             try:
                 res = search_catalog_v1(query_str, use_legacy_force=legacy_flag)
                 self.send_json_response(res, status=200)

@@ -28,9 +28,20 @@ _ENTITY_RESOLVER_CACHE = {}
 _ENTITY_RESOLVER_LOCK = threading.Lock()
 
 
+# Automatically load .env file if available
+_env_file = BASE_DIR / ".env"
+if _env_file.exists():
+    with open(_env_file, "r", encoding="utf-8") as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith("#") and "=" in _line:
+                _k, _v = _line.split("=", 1)
+                _k, _v = _k.strip(), _v.strip()
+                os.environ[_k] = _v
+
 def entity_resolver_mode(explicit_mode=None):
-    mode = (explicit_mode or os.environ.get("SMART_SEARCH_ENTITY_RESOLVER_MODE", "off")).strip().lower()
-    return mode if mode in {"off", "shadow", "apply"} else "off"
+    mode = (explicit_mode or os.environ.get("SMART_SEARCH_ENTITY_RESOLVER_MODE", "apply")).strip().lower()
+    return mode if mode in {"off", "shadow", "apply"} else "apply"
 
 
 def entity_resolver_policy(explicit_policy=None):
@@ -145,14 +156,19 @@ def apply_entity_resolution(parsed, resolver=None, mode=None, policy=None, catal
             if candidate_is_available(entity_type, result["entity_id"]):
                 return dict(result)
             return None
-        if active_policy != "top1" or active_mode != "apply":
-            return None
         ranked = result.get("candidates") or []
         candidate = next(
             (
                 item
                 for item in ranked
-                if item.get("entity_id") and candidate_is_available(entity_type, item["entity_id"])
+                if item.get("entity_id")
+                and candidate_is_available(entity_type, item["entity_id"])
+                and (item.get("score") or 0.0) >= (0.80 if entity_type == "brand" else 0.65)
+                and (
+                    item.get("character_score") is None
+                    or item.get("character_score") >= (0.50 if entity_type in {"product_type", "brand"} else 0.40)
+                    or (item.get("score") or 0.0) >= 0.75
+                )
             ),
             None,
         )
@@ -267,9 +283,9 @@ def apply_brand_entity_resolution(parsed, resolver=None, mode=None, policy=None,
     """Backward-compatible entry point for callers created before V1.2."""
     return apply_entity_resolution(parsed, resolver, mode, policy, catalog)
 
-def load_canonical_catalog():
+def load_canonical_catalog(force_reload: bool = False):
     global _CANONICAL_CATALOG_CACHE
-    if _CANONICAL_CATALOG_CACHE is not None:
+    if _CANONICAL_CATALOG_CACHE is not None and not force_reload:
         return _CANONICAL_CATALOG_CACHE
     if CANONICAL_CATALOG_PATH.exists():
         with open(CANONICAL_CATALOG_PATH, "r", encoding="utf-8") as f:
@@ -373,24 +389,46 @@ def search_catalog_v1(
             if exact_volume_matches:
                 matched_products = exact_volume_matches
 
-        # Lexical score ranking within hard filter subset
-        unparsed = parsed.get("unparsed_tokens", [])
-        if unparsed:
-            def lex_score(item):
+        # Characteristic attribute scoring & sorting (surface, moisture, finish, properties, color)
+        char_attributes = {k: v for k, v in attributes.items() if k not in ("weight_kg", "volume_l")}
+        attribute_relaxed = False
+
+        if matched_products:
+            def rank_product(item):
                 score = 100 if product_id is not None and str(item.get("id")) == str(product_id) else 0
-                name_low = item.get("name", "").lower()
+                item_attrs = item.get("attributes", {})
+                name_low = (item.get("name") or "").lower()
+
+                # Characteristic attribute match
+                for k, target_val in char_attributes.items():
+                    if item_attrs.get(k) == target_val:
+                        score += 50
+                    elif target_val in name_low or (k == "surface" and target_val == "строганый" and ("строг" in name_low or "строган" in name_low)):
+                        score += 30
+
+                # Lexical unparsed token match
+                unparsed = parsed.get("unparsed_tokens", [])
                 for tok in unparsed:
                     if tok in name_low:
                         score += 5
+
                 return score
-            matched_products.sort(key=lex_score, reverse=True)
+
+            matched_products.sort(key=rank_product, reverse=True)
+
+            if char_attributes:
+                top_char_score = max((rank_product(p) for p in matched_products), default=0)
+                if top_char_score < 30:
+                    attribute_relaxed = True
 
         primary_products = matched_products[:top_k]
 
         title_parts = []
         if parsed.get("product_type_display"):
             pt_disp = parsed["product_type_display"].capitalize()
-            if pt_disp.endswith("к"):
+            if pt_disp.endswith("ок") or pt_disp.endswith("ик"):
+                plural_pt = pt_disp[:-2] + "ки"
+            elif pt_disp.endswith("к"):
                 plural_pt = pt_disp + "и"
             elif pt_disp.endswith("а") or pt_disp.endswith("ь"):
                 plural_pt = pt_disp[:-1] + "и"
@@ -440,6 +478,7 @@ def search_catalog_v1(
         "meta": {
             "strategy": strategy,
             "fallback_used": fallback_used,
+            "attribute_relaxed": attribute_relaxed if 'attribute_relaxed' in locals() else False,
             "catalog_version": "canonical-v1",
             "aliases_version": "aliases-v1",
             "graph_version": "complement-graph-v1-approved",

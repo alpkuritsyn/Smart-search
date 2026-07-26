@@ -32,8 +32,8 @@ def resolve_brand_id(brand_str: str, aliases_cfg: dict) -> tuple[str, str]:
                 return b["id"], b["display"]
     return None, brand_str
 
-def resolve_product_type_id(name: str, subcategory: str, aliases_cfg: dict) -> tuple[str, str]:
-    text = (name + " " + (subcategory or "")).lower().replace("ё", "е")
+def resolve_product_type_id(name: str, subcategory: str, category: str, aliases_cfg: dict) -> tuple[str, str]:
+    text = (name + " " + (subcategory or "") + " " + (category or "")).lower().replace("ё", "е")
     for pt in aliases_cfg.get("product_types", []):
         for alias in pt["aliases"]:
             alias_norm = alias.lower().replace("ё", "е")
@@ -71,7 +71,7 @@ def build_canonical_catalog():
             raw_catalog = json.load(f)
         for item in raw_catalog:
             b_id, b_disp = resolve_brand_id(item.get("brand"), aliases_cfg)
-            pt_id, pt_disp = resolve_product_type_id(item.get("name", ""), item.get("subcategory", ""), aliases_cfg)
+            pt_id, pt_disp = resolve_product_type_id(item.get("name", ""), item.get("subcategory", ""), item.get("category", ""), aliases_cfg)
             attrs = extract_product_attributes(item.get("name", ""))
 
             canonical_products.append({
@@ -107,7 +107,7 @@ def build_canonical_catalog():
             if (sku_key and sku_key in existing_skus) or (url_key and url_key in existing_urls):
                 continue
             b_id, b_disp = resolve_brand_id(raw.get("brand"), aliases_cfg)
-            pt_id, pt_disp = resolve_product_type_id(raw.get("name", ""), raw.get("subcategory", ""), aliases_cfg)
+            pt_id, pt_disp = resolve_product_type_id(raw.get("name", ""), raw.get("subcategory", ""), raw.get("category", ""), aliases_cfg)
             attrs = extract_product_attributes(raw.get("name", ""))
 
             canonical_products.append({

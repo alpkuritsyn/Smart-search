@@ -1,8 +1,8 @@
 {
   "review_contract_version": "antigravity-graph-review-v1",
   "review_type": "independent-semantic-graph-review",
-  "source_request_sha256": "bcf0bf4a1ea6c79eb0844cc265eb10618731eff184ab669770fdb3cafe9ab5fc",
   "decision_scope": "findings_only",
+  "source_request_sha256": "e2835441909e99a0f3fa4119a4259e6371d0b67102c8c07bb51a1f579a52872b",
   "reviewer": {
     "agent_definition": "agents/08_graph_semantic_reviewer.md",
     "execution_context": "separate-antigravity-subagent",
@@ -15,11 +15,11 @@
     {
       "case_id": "paint-core-complements",
       "verdict": "PASS",
-      "summary": "Все четыре категорийные связи краска -> грунтовка (PREPARE_WITH), шпатлевка (LEVEL_WITH), кисть (APPLY_WITH), валик (APPLY_WITH) направлены корректно и не вызывают бренд-утечек.",
+      "summary": "Paint node has all required technological preparation, leveling, and application tool outgoing edges.",
       "evidence": [
         {
-          "source": "review_request.cases[paint-core-complements].neighborhood.edges",
-          "claim": "type:paint PREPARE_WITH type:primer, LEVEL_WITH type:putty, APPLY_WITH type:brush/roller присутствуют; рационалы строго условны и ограничены уровнем категорий."
+          "source": "reports/antigravity_graph_review_request.json",
+          "claim": "type:paint has APPLY_WITH brush and roller, LEVEL_WITH putty, and PREPARE_WITH primer edges."
         }
       ],
       "missing_evidence": [],
@@ -29,11 +29,11 @@
     {
       "case_id": "primer-outgoing",
       "verdict": "PASS",
-      "summary": "Исходящие связи грунтовка -> кисть (APPLY_WITH) и валик (APPLY_WITH) корректны.",
+      "summary": "Primer node has required application tool outgoing edges (brush and roller).",
       "evidence": [
         {
-          "source": "review_request.cases[primer-outgoing].neighborhood.edges",
-          "claim": "type:primer APPLY_WITH type:brush и type:roller валидны и логически обоснованы."
+          "source": "reports/antigravity_graph_review_request.json",
+          "claim": "type:primer has APPLY_WITH brush and APPLY_WITH roller edges."
         }
       ],
       "missing_evidence": [],
@@ -43,11 +43,11 @@
     {
       "case_id": "varnish-outgoing",
       "verdict": "PASS",
-      "summary": "Исходящие связи лак -> грунтовка (PREPARE_WITH) и кисть (APPLY_WITH) верны.",
+      "summary": "Varnish node has required preparation and application tool outgoing edges.",
       "evidence": [
         {
-          "source": "review_request.cases[varnish-outgoing].neighborhood.edges",
-          "claim": "type:varnish PREPARE_WITH type:primer и APPLY_WITH type:brush содержат точные условные рационалы."
+          "source": "reports/antigravity_graph_review_request.json",
+          "claim": "type:varnish has PREPARE_WITH primer and APPLY_WITH brush edges."
         }
       ],
       "missing_evidence": [],
@@ -57,11 +57,11 @@
     {
       "case_id": "putty-outgoing",
       "verdict": "PASS",
-      "summary": "Связь шпатлевка -> грунтовка (PREPARE_WITH) семантически верна.",
+      "summary": "Putty node has required substrate preparation outgoing edge.",
       "evidence": [
         {
-          "source": "review_request.cases[putty-outgoing].neighborhood.edges",
-          "claim": "type:putty PREPARE_WITH type:primer валидна."
+          "source": "reports/antigravity_graph_review_request.json",
+          "claim": "type:putty has PREPARE_WITH primer edge."
         }
       ],
       "missing_evidence": [],
@@ -71,11 +71,11 @@
     {
       "case_id": "tools-outgoing",
       "verdict": "PASS",
-      "summary": "Связи кисть -> краска (USE_WITH) и валик -> краска (USE_WITH) корректно отражают использование инструмента с материалом.",
+      "summary": "Brush and roller tool nodes have required USE_WITH outgoing target edges.",
       "evidence": [
         {
-          "source": "review_request.cases[tools-outgoing].neighborhood.edges",
-          "claim": "Инструменты используют отношение USE_WITH к материалам нанесения."
+          "source": "reports/antigravity_graph_review_request.json",
+          "claim": "type:brush and type:roller have USE_WITH paint, primer, and varnish edges."
         }
       ],
       "missing_evidence": [],
@@ -85,11 +85,11 @@
     {
       "case_id": "mixes-outgoing",
       "verdict": "PASS",
-      "summary": "Связи штукатурка -> грунтовка/шпатлевка и плиточный клей -> грунтовка корректны.",
+      "summary": "Plaster and tile_glue nodes have required preparation and finishing outgoing edges.",
       "evidence": [
         {
-          "source": "review_request.cases[mixes-outgoing].neighborhood.edges",
-          "claim": "Отражены системные связи подготовки и выравнивания строительных смесей."
+          "source": "reports/antigravity_graph_review_request.json",
+          "claim": "type:plaster has PREPARE_WITH primer and FINISH_WITH putty; type:tile_glue has PREPARE_WITH primer."
         }
       ],
       "missing_evidence": [],
@@ -99,16 +99,17 @@
     {
       "case_id": "no-brand-propagation",
       "verdict": "PASS",
-      "summary": "Бренды не навязываются комплементам: фильтрация комплементов работает на уровне категорий.",
+      "summary": "Graph relations do not propagate primary brand restrictions onto complement categories.",
       "evidence": [
         {
-          "source": "review_request.cases[no-brand-propagation].deterministic_check",
-          "claim": "Отсутствуют запрещенные узлы и ребра с принудительной фильтрацией по бренду."
+          "source": "reports/antigravity_graph_review_request.json",
+          "claim": "All 17 approved graph edges link category nodes without brand lock."
         }
       ],
       "missing_evidence": [],
       "risky_claims": [],
       "required_changes": []
     }
-  ]
+  ],
+  "findings": []
 }

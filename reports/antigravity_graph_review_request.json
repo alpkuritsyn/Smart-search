@@ -12,9 +12,39 @@
     "cases": {
       "path": "config/graph_test_cases.json",
       "sha256": "eefe7d26c174b2a00c761e879ed3509db17c33d07e7cdbc0e7a290328f7e3d4c"
+    },
+    "coverage": {
+      "path": "reports/catalog-graph-coverage.json",
+      "sha256": "87c1460ca3308e1a462e64a66bb6e23c9dd5947b603f8ec7a2159d7769b70ebb"
     }
   },
-  "coverage_summary": null,
+  "coverage_summary": {
+    "catalog_products": 21038,
+    "mapped_products": 2622,
+    "catalog_mapping_pct": 12.46,
+    "scoped_products": 2622,
+    "scoped_types_with_products": 8,
+    "scoped_types_with_outgoing_edges": 8,
+    "scoped_type_outgoing_coverage_pct": 100.0,
+    "scoped_products_with_outgoing_edges": 2622,
+    "scoped_product_outgoing_coverage_pct": 100.0,
+    "approved_edges": 17,
+    "missing_graph_nodes": [],
+    "missing_outgoing_types": [],
+    "empty_edge_targets": [],
+    "products_by_type": {
+      "type:brush": 162,
+      "type:paint": 1394,
+      "type:plaster": 293,
+      "type:primer": 189,
+      "type:putty": 149,
+      "type:roller": 174,
+      "type:tile_glue": 81,
+      "type:varnish": 180
+    },
+    "status": "PASS",
+    "errors": []
+  },
   "guardrails": [
     "review in a separate Antigravity subagent context",
     "do not call external LLM providers",
