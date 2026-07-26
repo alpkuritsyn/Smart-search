@@ -193,10 +193,19 @@ def main():
         subcat = (item.get("subcategory") or "").lower()
         cat = (item.get("category") or "").lower()
         name = (item.get("name") or "").lower()
-        search_text = f"{subcat} {cat} {name}"
+
+        NON_PAINT_CATEGORIES = {
+            "инженерная сантехника", "ревизионные люки", "климатическое оборудование",
+            "электроинструмент и комплектующие", "ручной инструмент, спецодежда",
+            "дача, сад, отдых", "крепеж и метизы", "сухие строительные смеси и гидроизоляция"
+        }
+        clean_name = re.sub(r"покрыти\w*\s+(полимерн\w*\s+)?эмаль\w*|под\s+покраск\w*", "", name)
 
         matched_type_id = None
         for pattern, type_id, _ in subcat_mapping_rules:
+            if type_id in {"type:paint", "type:varnish", "type:brush", "type:roller"} and (cat in NON_PAINT_CATEGORIES or subcat in NON_PAINT_CATEGORIES):
+                continue
+            search_text = f"{subcat} {cat} {clean_name}"
             if re.search(pattern, search_text):
                 matched_type_id = type_id
                 break

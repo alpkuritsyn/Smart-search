@@ -27,6 +27,87 @@ _ALIASES_CONFIG = load_aliases()
 _ATTRIBUTES_TAXONOMY = load_attributes_taxonomy()
 
 
+class AliasTrie:
+    """Trie structure for fast multi-token phrase matching."""
+
+    def __init__(self):
+        self.root = {}
+
+    def insert(self, phrase_tokens: list[str], payload: dict):
+        if not phrase_tokens:
+            return
+        node = self.root
+        for tok in phrase_tokens:
+            node = node.setdefault(tok, {})
+        node["_payload"] = payload
+
+    def match(self, tokens: list[str]) -> list[tuple[int, int, dict]]:
+        matches = []
+        n = len(tokens)
+        for i in range(n):
+            node = self.root
+            j = i
+            best_match = None
+            while j < n and tokens[j] in node:
+                node = node[tokens[j]]
+                j += 1
+                if "_payload" in node:
+                    best_match = (i, j, node["_payload"])
+            if best_match:
+                matches.append(best_match)
+        return matches
+
+
+def build_alias_trie():
+    trie = AliasTrie()
+    aliases_config = load_aliases()
+    attributes_taxonomy = load_attributes_taxonomy()
+
+    # Product Types (Checked FIRST)
+    for pt in aliases_config.get("product_types", []):
+        for alias in sorted(pt.get("aliases", []), key=len, reverse=True):
+            norm_alias = normalize_text(alias)
+            if norm_alias:
+                trie.insert(norm_alias.split(), {
+                    "kind": "product_type",
+                    "id": pt["id"],
+                    "display": pt["display"]
+                })
+
+    # Brands (Checked SECOND)
+    for b in aliases_config.get("brands", []):
+        for alias in sorted(b.get("aliases", []), key=len, reverse=True):
+            norm_alias = normalize_text(alias)
+            if norm_alias:
+                trie.insert(norm_alias.split(), {
+                    "kind": "brand",
+                    "id": b["id"],
+                    "display": b["display"]
+                })
+
+    # Characteristic Attributes
+    for attr_group in attributes_taxonomy:
+        attr_key = attr_group["key"]
+        for val_obj in attr_group.get("values", []):
+            canonical_val = val_obj["value"]
+            for alias in val_obj.get("aliases", []):
+                norm_alias = normalize_text(alias)
+                if norm_alias:
+                    trie.insert(norm_alias.split(), {
+                        "kind": "attribute",
+                        "key": attr_key,
+                        "value": canonical_val
+                    })
+    return trie
+
+_ALIAS_TRIE = None
+
+def get_alias_trie():
+    global _ALIAS_TRIE
+    if _ALIAS_TRIE is None:
+        _ALIAS_TRIE = build_alias_trie()
+    return _ALIAS_TRIE
+
 def contains_alias(normalized_text: str, alias: str) -> bool:
     """Match a normalized alias as a whole token/phrase, never as a substring."""
     if not alias:
@@ -68,52 +149,33 @@ def parse_query(raw_query: str) -> dict:
     product_type_display = None
     attributes = {}
 
-    aliases_config = load_aliases()
-    attributes_taxonomy = load_attributes_taxonomy()
-
-    brands = aliases_config.get("brands", [])
-    product_types = aliases_config.get("product_types", [])
-
     matched_tokens = set()
+    trie = get_alias_trie()
+    matches = trie.match(tokens)
 
-    for b in brands:
-        for alias in sorted(b["aliases"], key=len, reverse=True):
-            alias_norm = normalize_text(alias)
-            if contains_alias(normalized, alias_norm):
-                brand_id = b["id"]
-                brand_display = b["display"]
-                alias_parts = alias_norm.split()
-                matched_tokens.update(alias_parts)
-                break
-        if brand_id:
+    # 1. Product Types match
+    for start_i, end_i, payload in matches:
+        if payload["kind"] == "product_type" and not product_type_id:
+            product_type_id = payload["id"]
+            product_type_display = payload["display"]
+            matched_tokens.update(tokens[start_i:end_i])
             break
 
-    for pt in product_types:
-        for alias in sorted(pt["aliases"], key=len, reverse=True):
-            alias_norm = normalize_text(alias)
-            if contains_alias(normalized, alias_norm):
-                product_type_id = pt["id"]
-                product_type_display = pt["display"]
-                alias_parts = alias_norm.split()
-                matched_tokens.update(alias_parts)
-                break
-        if product_type_id:
+    # 2. Brands match
+    for start_i, end_i, payload in matches:
+        if payload["kind"] == "brand" and not brand_id:
+            brand_id = payload["id"]
+            brand_display = payload["display"]
+            matched_tokens.update(tokens[start_i:end_i])
             break
 
-    # Extract characteristic attributes from taxonomy
-    for attr_group in attributes_taxonomy:
-        attr_key = attr_group["key"]
-        for val_obj in attr_group.get("values", []):
-            canonical_val = val_obj["value"]
-            for alias in sorted(val_obj.get("aliases", []), key=len, reverse=True):
-                alias_norm = normalize_text(alias)
-                if contains_alias(normalized, alias_norm):
-                    attributes[attr_key] = canonical_val
-                    alias_parts = alias_norm.split()
-                    matched_tokens.update(alias_parts)
-                    break
-            if attr_key in attributes:
-                break
+    # 3. Characteristic Attributes match
+    for start_i, end_i, payload in matches:
+        if payload["kind"] == "attribute":
+            attr_k = payload["key"]
+            if attr_k not in attributes:
+                attributes[attr_k] = payload["value"]
+                matched_tokens.update(tokens[start_i:end_i])
 
     # Numeric attributes: Weight (kg)
     weight_match = re.search(r'\b(\d+(?:[\.,]\d+)?)\s*(кг|kg)\b', normalized)

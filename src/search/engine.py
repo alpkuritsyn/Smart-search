@@ -9,6 +9,7 @@ import json
 import time
 import copy
 import threading
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -249,10 +250,12 @@ def apply_entity_resolution(parsed, resolver=None, mode=None, policy=None, catal
     for token in valid_candidates:
         options = []
         result_types = []
+        if not parsed.get("product_type_id") and not parsed.get("product_id"):
+            result_types.append("product_type")
         if not parsed.get("brand_id"):
             result_types.append("brand")
         if not parsed.get("product_type_id") and not parsed.get("product_id"):
-            result_types.extend(("product_type", "product_name"))
+            result_types.append("product_name")
 
         for entity_type in result_types:
             result = active_resolver.resolve(token, entity_type)
@@ -423,6 +426,20 @@ def search_catalog_v1(
                 score = 100 if product_id is not None and str(item.get("id")) == str(product_id) else 0
                 item_attrs = item.get("attributes", {})
                 name_low = (item.get("name") or "").lower()
+                cat_low = (item.get("category") or "").lower()
+
+                # Category relevance boost & penalty
+                if "лакокрасочн" in cat_low or "декоративн" in cat_low:
+                    score += 200
+                elif "сантехник" in cat_low or "инструмент" in cat_low or "климатическ" in cat_low:
+                    score -= 500
+
+                # Product Type display token relevance in title
+                pt_display = (parsed.get("product_type_display") or "").lower()
+                if pt_display and pt_display in name_low:
+                    score += 100
+                    if name_low.startswith(pt_display):
+                        score += 150
 
                 # Characteristic attribute match
                 for k, target_val in char_attributes.items():
@@ -477,7 +494,10 @@ def search_catalog_v1(
 
     complements = []
     if product_type_id:
-        raw_complements = get_complements_for_type(product_type_id, canonical_catalog=catalog)
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            future_complements = executor.submit(get_complements_for_type, product_type_id, canonical_catalog=catalog)
+            raw_complements = future_complements.result()
+
         for comp in raw_complements:
             serialized_comp_products = [legacy_server.serialize_product(p) for p in comp.get("products", [])]
             complements.append({
