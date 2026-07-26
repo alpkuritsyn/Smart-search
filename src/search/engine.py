@@ -7,6 +7,7 @@ import os
 import sys
 import json
 import time
+import copy
 import threading
 from pathlib import Path
 
@@ -294,6 +295,8 @@ def load_canonical_catalog(force_reload: bool = False):
             return _CANONICAL_CATALOG_CACHE
     return []
 
+_SEARCH_RESULT_CACHE = {}
+
 def search_catalog_v1(
     query_str: str,
     top_k: int = 25,
@@ -303,6 +306,19 @@ def search_catalog_v1(
     resolver_policy=None,
 ) -> dict:
     start_time = time.time()
+    cache_key = (
+        (query_str or "").strip().lower(),
+        use_legacy_force,
+        entity_resolver_mode(resolver_mode),
+        entity_resolver_policy(resolver_policy),
+        top_k,
+    )
+    if cache_key in _SEARCH_RESULT_CACHE:
+        cached_res = copy.deepcopy(_SEARCH_RESULT_CACHE[cache_key])
+        cached_res["meta"]["elapsed_ms"] = max(0, int((time.time() - start_time) * 1000))
+        cached_res["meta"]["cached"] = True
+        return cached_res
+
     catalog = load_canonical_catalog()
 
     if use_legacy_force:
@@ -468,7 +484,7 @@ def search_catalog_v1(
 
     resolutions = parsed.get("entity_resolutions") or []
     resolution = parsed.get("entity_resolution")
-    return {
+    res = {
         "query": parsed,
         "primary": {
             "title": primary_title,
@@ -490,9 +506,14 @@ def search_catalog_v1(
             ),
             "entity_resolver_model": resolution.get("model") if resolution else None,
             "entity_resolver_index_version": resolution.get("index_version") if resolution else None,
-            "elapsed_ms": elapsed_ms
+            "elapsed_ms": elapsed_ms,
+            "cached": False,
         }
     }
+    if len(_SEARCH_RESULT_CACHE) > 4096:
+        _SEARCH_RESULT_CACHE.clear()
+    _SEARCH_RESULT_CACHE[cache_key] = copy.deepcopy(res)
+    return res
 
 if __name__ == "__main__":
     res = search_catalog_v1("краска тикурила")
