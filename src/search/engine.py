@@ -404,6 +404,13 @@ def search_catalog_v1(
 
             matched_products.append(p)
 
+        # If combination of brand + product_type yields 0 results, fall back to product_type alone
+        if not matched_products and brand_id and product_type_id:
+            brand_id = None
+            for p in catalog:
+                if p.get("product_type_id") == product_type_id:
+                    matched_products.append(p)
+
         # If weight/volume specified, filter down to exact attribute matches if present
         if "weight_kg" in attributes:
             target_w = attributes["weight_kg"]
